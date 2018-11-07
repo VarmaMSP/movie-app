@@ -1,0 +1,13 @@
+{
+  "extends": "../.babelrc",
+  "overrides": [{
+    "presets": [
+      ["@babel/preset-env", {"targets": {"node": "current"}}],
+      "@babel/preset-flow"
+    ],
+    "plugins": [
+      ["@babel/plugin-proposal-class-properties", { "loose": false }],
+      ["module-resolver", { "root": ["./server"] }]
+    ]
+  }]
+}

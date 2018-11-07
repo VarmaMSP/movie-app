@@ -11,6 +11,7 @@
     "setup:flow": "flow-typed install"
   },
   "dependencies": {
+    "express": "^4.16.4",
     "isomorphic-fetch": "^2.2.1"
   },
   "devDependencies": {
@@ -29,7 +30,8 @@
   },
   "standard": {
     "env": [
-      "node"
+      "node",
+      "browser"
     ],
     "parser": "babel-eslint",
     "plugins": [
