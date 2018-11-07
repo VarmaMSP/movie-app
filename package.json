@@ -5,5 +5,39 @@
   "main": "index.js",
   "author": "Pavan Varma (varmamsp111@gmail.com)",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "scripts": {
+    "setup": "yarn install --ignore-engines",
+    "setup:flow": "flow-typed install"
+  },
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "eslint-plugin-flowtype": "^2.50.1",
+    "flow-bin": "^0.81.0",
+    "flow-typed": "^2.5.1",
+    "standard": "^12.0.1"
+  },
+  "standard": {
+    "env": [
+      "node"
+    ],
+    "parser": "babel-eslint",
+    "plugins": [
+      "flowtype"
+    ],
+    "globals": [
+      "chai",
+      "expect"
+    ]
+  }
 }
