@@ -1,0 +1,9 @@
+{
+  "name": "movie-app",
+  "version": "1.0.0",
+  "description": "Grabbd Hiring Challenge.",
+  "main": "index.js",
+  "author": "Pavan Varma (varmamsp111@gmail.com)",
+  "license": "MIT",
+  "private": false
+}
