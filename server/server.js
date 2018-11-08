@@ -1,17 +1,12 @@
 import express from 'express'
 
-import { tmdbP } from 'store'
+import movieRouter from 'route/movie'
 
 const port = 8080
 const app = express()
 
-tmdbP
-  .then((tmdb) => { return tmdb })
-  .then(tmdb => {
-    console.log(tmdb.imgConfig)
-    return tmdb.searchMovies('Dark Knight')
-  })
-  .then(console.log)
+app.use(express.json())
+app.use('/movie', movieRouter)
 
 app.listen(port, err => {
   if (!err) {
