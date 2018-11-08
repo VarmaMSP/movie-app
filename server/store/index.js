@@ -1,6 +1,14 @@
 // @flow
-// import { db as db_ } from 'store/db'
-import { tmdbP as tmdbP_ } from 'store/tmdb'
+import DB from 'store/db'
+import TMDB from 'store/tmdb'
+import env from 'store/env'
 
-// export let db = db_
-export let tmdbP = tmdbP_
+export let tmdbP = TMDB.newClient(env['TMDB_API_KEY'])
+
+export let db = new DB({
+  connectionLimit: 5,
+  host: env['MYSQL_HOST'],
+  user: env['MYSQL_USERNAME'],
+  password: env['MYSQL_PASSWORD'],
+  database: 'movie_app'
+})

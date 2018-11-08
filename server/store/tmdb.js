@@ -1,6 +1,6 @@
 // @flow
 
-class TMDB {
+export default class TMDB {
   apiKey : string
   baseUrl : string
   imgConfig : {|
@@ -98,15 +98,4 @@ class TMDB {
     if (size === 'M') return `${this.imgConfig.baseUrl}${this.imgConfig.backdropSizes[1]}/${src}`
     if (size === 'L') return `${this.imgConfig.baseUrl}${this.imgConfig.backdropSizes[2]}/${src}`
   }
-}
-
-export let tmdbP
-
-const apiKey = process.env.TMDB_API_KEY
-
-if (!apiKey) {
-  console.log('TMDB API Key not found.')
-  process.exit(1)
-} else {
-  tmdbP = TMDB.newClient(apiKey)
 }
