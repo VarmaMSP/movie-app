@@ -1,4 +1,6 @@
-export default class TmdbClient {
+// @flow
+
+class TMDB {
   apiKey : string
   baseUrl : string
 
@@ -20,11 +22,22 @@ export default class TmdbClient {
     }
   }
 
-  getSearchRoute () {
+  getSearchRoute (): string {
     return `${this.baseUrl}/search/movie`
   }
 
   searchMovies (searchQuery: string, page: number = 1): Promise<any> {
     return this.doFetch(`${this.getSearchRoute()}?api_key=${this.apiKey}&query=${searchQuery}&page=${page}&include_adult=false`)
   }
+}
+
+export let tmdb
+
+const apiKey = process.env.TMDB_API_KEY
+
+if (!apiKey) {
+  console.log('TMDB API Key not found.')
+  process.exit(1)
+} else {
+  tmdb = new TMDB(apiKey)
 }
