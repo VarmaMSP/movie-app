@@ -2,11 +2,13 @@
 
 export default class AppError extends Error {
   respCode: number
+  debug: string
   path: string
 
-  constructor (respCode: number, message: string, path: string) {
-    super(message)
+  constructor (respCode: number, userMsg: string, debugMsg: string, path: string) {
+    super(userMsg)
     this.respCode = respCode
+    this.debug = debugMsg
     this.path = path
   }
 
@@ -19,20 +21,9 @@ export default class AppError extends Error {
   }
 
   toJson (): {[string]: any} {
-    let msg: string
-    switch (this.respCode) {
-      case 500:
-        msg = 'Something went wrong, Cannot Fetch given item.'
-        break
-      case 404:
-        msg = 'Invalid Request.'
-        break
-      default:
-        msg = 'Something went wrong.'
-    }
     return {
       error: true,
-      message: msg
+      message: this.message
     }
   }
 }
