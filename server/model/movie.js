@@ -1,7 +1,6 @@
 // @flow
 import ISO6391 from 'iso-639-1'
 
-import AppError from 'model/error'
 import { tmdbP } from 'store'
 
 type MovieStatus =
@@ -34,18 +33,10 @@ export default class Movie {
   async getById (movieId: number): Promise<MovieDetails> {
     const tmdb = await tmdbP
     const resp = await tmdb.getMovie(movieId)
-
-    if (resp.status_code && resp.status_code === 7) {
-      throw new AppError(500, resp.status_message, 'model.movie.getById')
-    }
-    if (resp.status_code && resp.status_code === 34) {
-      throw new AppError(404, resp.status_message, 'model.movie.getById')
-    }
-
     return {
       id: resp.id,
       title: resp.title,
-      language: ISO6391.getName(resp.language),
+      language: ISO6391.getName(resp.original_language),
       poster: resp.poster_path ? tmdb.getPosterUrl(resp.poster_path, 'M') : undefined,
       backdrop: resp.backdrop_path ? tmdb.getBackdropUrl(resp.backdrop_path, 'L') : undefined,
       status: resp.status,
@@ -58,14 +49,6 @@ export default class Movie {
   async getCast (movieId: number): Promise<Array<CastMember>> {
     const tmdb = await tmdbP
     const resp = await tmdb.getMovieCredits(movieId)
-
-    if (resp.status_code && resp.status_code === 7) {
-      throw new AppError(500, resp.status_message, 'model.movie.getCast')
-    }
-    if (resp.status_code && resp.status_code === 34) {
-      throw new AppError(404, resp.status_message, 'model.movie.getCast')
-    }
-
     return resp.cast.map(c => ({
       name: c.name,
       character: c.character,
@@ -73,24 +56,15 @@ export default class Movie {
     }))
   }
 
-  async searchMovies (searchQuery: string, page: number = 1): Promise<{ total: number, movies: Array<MovieDetails> }> {
+  async searchMovies (searchQuery: string, page: number): Promise<{ total: number, movies: Array<MovieDetails> }> {
     const tmdb = await tmdbP
     const resp = await tmdb.searchMovies(searchQuery, page)
-
-    if (resp.status_code && resp.status_code === 7) {
-      throw new AppError(500, resp.status_message, 'model.movie.searchMovies')
-    }
-    if (resp.status_code && resp.status_code === 34) {
-      throw new AppError(404, resp.status_message, 'model.movie.searchMovies')
-    }
-
     return {
-      totalPages: resp.total_pages,
-      movies: resp.cast.map(m => ({
+      total: resp.total_pages,
+      movies: resp.results.map(m => ({
         id: m.id,
         title: m.title,
         language: ISO6391.getName(m.original_language),
-        genres: m.genres,
         poster: m.poster_path ? tmdb.getPosterUrl(m.poster_path, 'M') : undefined,
         backdrop: m.backdrop_path ? tmdb.getBackdropUrl(m.backdrop_path, 'L') : undefined,
         status: m.status,
