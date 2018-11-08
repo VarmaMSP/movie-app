@@ -41,12 +41,7 @@ export default class TMDB {
       method: 'GET',
       headers: new Headers()
     })
-    try {
-      return await response.json()
-    } catch (err) {
-      console.log('error', err)
-      throw new Error('Received Invalid Response')
-    }
+    return response.json()
   }
 
   getConfigRoute (): string {
@@ -76,7 +71,7 @@ export default class TMDB {
     return this.doFetch(`${this.getMovieRoute(movieId)}/credits?${queryParams}`)
   }
 
-  searchMovies (searchQuery: string, page: number = 1): Promise<any> {
+  searchMovies (searchQuery: string, page: number): Promise<any> {
     const queryParams = `api_key=${this.apiKey}&query=${searchQuery}&page=${page}&include_adult=false`
     return this.doFetch(`${this.getSearchMoviesRoute()}?${queryParams}`)
   }
