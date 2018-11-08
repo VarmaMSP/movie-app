@@ -1,4 +1,5 @@
 // @flow
+import AppError from 'model/error'
 
 export default class TMDB {
   apiKey : string
@@ -9,17 +10,6 @@ export default class TMDB {
     profileSizes: Array<string>,
     backdropSizes: Array<string>
   |}
-
-  static async newClient (apiKey: string): Promise<TMDB> {
-    const tmdb = new TMDB(apiKey)
-    try {
-      await tmdb.setConfig()
-    } catch (err) {
-      console.log('Cannot Configure TMDB client. ERROR: ', err.toString())
-      process.exit(1)
-    }
-    return tmdb
-  }
 
   constructor (apiKey: string) {
     this.apiKey = apiKey
@@ -37,11 +27,20 @@ export default class TMDB {
   }
 
   async doFetch (url: string): Promise<any> {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: new Headers()
-    })
-    return response.json()
+    let data
+    try {
+      let response = await fetch(url)
+      data = await response.json()
+    } catch (err) {
+      throw new AppError(500, 'Error fetching resource.', '', 'model.movie.getById')
+    }
+    if (data.status_code && data.status_code === 7) {
+      throw new AppError(500, 'Something went wrong.', data.status_message, 'model.movie.getById')
+    }
+    if (data.status_code && data.status_code === 34) {
+      throw new AppError(404, 'Cannot find resource.', data.status_message, 'model.movie.getById')
+    }
+    return data
   }
 
   getConfigRoute (): string {
