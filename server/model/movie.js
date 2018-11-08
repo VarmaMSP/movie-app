@@ -46,7 +46,6 @@ export default class Movie {
       id: resp.id,
       title: resp.title,
       language: ISO6391.getName(resp.language),
-      genres: resp.genres,
       poster: resp.poster_path ? tmdb.getPosterUrl(resp.poster_path, 'M') : undefined,
       backdrop: resp.backdrop_path ? tmdb.getBackdropUrl(resp.backdrop_path, 'L') : undefined,
       status: resp.status,
@@ -61,10 +60,10 @@ export default class Movie {
     const resp = await tmdb.getMovieCredits(movieId)
 
     if (resp.status_code && resp.status_code === 7) {
-      throw new AppError(500, resp.status_message, 'model.movie.getById')
+      throw new AppError(500, resp.status_message, 'model.movie.getCast')
     }
     if (resp.status_code && resp.status_code === 34) {
-      throw new AppError(404, resp.status_message, 'model.movie.getById')
+      throw new AppError(404, resp.status_message, 'model.movie.getCast')
     }
 
     return resp.cast.map(c => ({
@@ -79,10 +78,10 @@ export default class Movie {
     const resp = await tmdb.searchMovies(searchQuery, page)
 
     if (resp.status_code && resp.status_code === 7) {
-      throw new AppError(500, resp.status_message, 'model.movie.getById')
+      throw new AppError(500, resp.status_message, 'model.movie.searchMovies')
     }
     if (resp.status_code && resp.status_code === 34) {
-      throw new AppError(404, resp.status_message, 'model.movie.getById')
+      throw new AppError(404, resp.status_message, 'model.movie.searchMovies')
     }
 
     return {
