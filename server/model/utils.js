@@ -1,6 +1,6 @@
 // @flow
 import bcrypt from 'bcrypt'
-import validate from 'validate'
+import validate from 'validate.js'
 
 export class AppError extends Error {
   respCode: number
@@ -43,6 +43,7 @@ export function comparePassword (password: string, hash: string): Promise<void> 
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, hash, (err, res) => {
       if (err) {
+        console.log(err)
         return reject(new AppError(
           500, 'Unable to verify password, Something went wrong',
           err.toString(), 'model.user.comparePassword'

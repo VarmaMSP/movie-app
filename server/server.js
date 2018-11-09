@@ -1,11 +1,13 @@
 import express from 'express'
 
+import authRouter from 'route/auth'
 import movieRouter from 'route/movie'
 
 const port = 8080
 const app = express()
 
 app.use(express.json())
+app.use('/auth', authRouter)
 app.use('/movie', movieRouter)
 
 app.listen(port, err => {

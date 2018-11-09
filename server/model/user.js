@@ -53,7 +53,7 @@ async function find (email: string, password: string): Promise<UserDetails> {
       '', 'model.user.find'
     )
   }
-  await comparePassword(password, user.password)
+  await comparePassword(password, user.password.toString())
   return { id: user.id, name: user.name, email: user.email }
 }
 

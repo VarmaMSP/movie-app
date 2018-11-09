@@ -1,6 +1,7 @@
 import express from 'express'
-import AppError from 'model/error'
-import movie from 'model/movie '
+
+import movie from 'model/movie'
+import { AppError } from 'model/utils'
 
 const router = express.Router()
 
