@@ -1,6 +1,7 @@
 // @flow
-import type { Pool, PoolOptions, Connection } from 'mysql'
+import type { Pool, PoolOptions, QueryResults } from 'mysql'
 import mysql from 'mysql'
+import AppError from 'model/error'
 
 export default class DB {
   pool : Pool
@@ -9,18 +10,16 @@ export default class DB {
     this.pool = mysql.createPool(opts)
   }
 
-  getConnection (): Promise<Connection> {
-    return new Promise((resolve, reject) => {
-      this.pool.getConnection((err, connection: ?Connection) => {
-        if (!err && connection) {
-          return resolve(connection)
-        }
-        reject(err)
-      })
-    })
+  getPool (): Pool {
+    return this.pool
   }
 
-  releaseConnection (connection: Connection) {
-    connection.release()
+  async query (sql: string, values: Array<mixed>): Promise<QueryResults> {
+    return new Promise((resolve, reject) => {
+      this.pool.query(sql, values, (err, results) => {
+        if (err) return reject(new AppError(500, 'Something went wrong.', err.toString(), 'db.query'))
+        resolve(results)
+      })
+    })
   }
 }
