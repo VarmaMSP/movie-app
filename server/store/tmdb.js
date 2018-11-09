@@ -1,5 +1,5 @@
 // @flow
-import AppError from 'model/error'
+import { AppError } from 'model/utils'
 
 export default class TMDB {
   apiKey : string
@@ -32,13 +32,22 @@ export default class TMDB {
       let response = await fetch(url)
       data = await response.json()
     } catch (err) {
-      throw new AppError(500, 'Error fetching resource.', '', 'model.movie.getById')
+      throw new AppError(
+        500, 'Error fetching resource.',
+        url, 'store.tmdb.doFetch'
+      )
     }
     if (data.status_code && data.status_code === 7) {
-      throw new AppError(500, 'Something went wrong.', data.status_message, 'model.movie.getById')
+      throw new AppError(
+        500, 'Something went wrong.',
+        data.status_message, 'store.tmdb.doFetch'
+      )
     }
     if (data.status_code && data.status_code === 34) {
-      throw new AppError(404, 'Cannot find resource.', data.status_message, 'model.movie.getById')
+      throw new AppError(
+        404, 'Cannot find resource.',
+        data.status_message, 'store.tmdb.doFetch'
+      )
     }
     return data
   }

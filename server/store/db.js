@@ -1,7 +1,8 @@
 // @flow
 import type { Pool, PoolOptions, QueryResults } from 'mysql'
 import mysql from 'mysql'
-import AppError from 'model/error'
+
+import { AppError } from 'model/utils'
 
 export default class DB {
   pool : Pool
@@ -17,7 +18,12 @@ export default class DB {
   async query (sql: string, values: Array<mixed>): Promise<QueryResults> {
     return new Promise((resolve, reject) => {
       this.pool.query(sql, values, (err, results) => {
-        if (err) return reject(new AppError(500, 'Something went wrong.', err.toString(), 'db.query'))
+        if (err) {
+          return reject(new AppError(
+            500, 'Something went wrong.',
+            err.toString(), 'store.db.query'
+          ))
+        }
         resolve(results)
       })
     })

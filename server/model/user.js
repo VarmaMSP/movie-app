@@ -1,56 +1,12 @@
 // @flow
-import bcrypt from 'bcrypt'
-import validate from 'validate'
 
 import { db } from 'store'
-import AppError from 'model/error'
+import { AppError, hashPassword, comparePassword, validateEmail } from 'model/utils'
 
 type UserDetails = {
   id: number,
   name: string,
   email: string
-}
-
-function hashPassword (password: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    bcrypt.hash(password, 5, (err, hash) => {
-      if (err) return reject(err)
-      resolve(hash)
-    })
-  })
-}
-
-function comparePassword (password: string, hash: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    bcrypt.compare(password, hash, (err, res) => {
-      if (err) {
-        return reject(new AppError(
-          500, 'Unable to verify password, Something went wrong',
-          err.toString(), 'model.user.comparePassword'
-        ))
-      }
-      if (!res) {
-        return reject(new AppError(
-          400, 'Incorrect password.',
-          '', 'model.user.comparePassword'
-        ))
-      }
-      resolve()
-    })
-  })
-}
-
-function validateEmail (email: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const err = validate({ from: email }, { from: { email: true } })
-    if (err) {
-      return reject(new AppError(
-        400, 'Please enter a vaild email',
-        '', 'model.user.validateEmail'
-      ))
-    }
-    resolve()
-  })
 }
 
 async function validateCredentials (name: string, email: string): Promise<void> {
