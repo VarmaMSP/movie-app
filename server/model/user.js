@@ -57,7 +57,7 @@ async function validateCredentials (name: string, email: string): Promise<void> 
   const [ user ] = await db.query('SELECT * FROM user where name = ? OR email = ?', [name, email])
   if (user && user.name === name && user.email === email) {
     throw new AppError(
-      400, 'An Accout exists with given credentials',
+      400, 'An Accout with given credentials already exists.',
       '', 'model.user.validateCredentials'
     )
   }
