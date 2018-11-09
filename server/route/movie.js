@@ -15,7 +15,10 @@ router.get('/results', (req, res) => {
   }
   movie.searchMovies(searchQuery, page).then(
     result => res.status(200).json(result),
-    err => res.status(err.respCode || 500).send(err.toString())
+    err => res
+      .status(err.respCode || 500)
+      .set('Content-Type', 'application/json')
+      .send(err.toString())
   )
 })
 
@@ -23,7 +26,10 @@ router.get('/:movieId', (req, res) => {
   let movieId = req.params.movieId
   movie.getById(movieId).then(
     result => res.status(200).json(result),
-    err => res.status(err.respCode || 500).send(err.toString())
+    err => res
+      .status(err.respCode || 500)
+      .set('Content-Type', 'application/json')
+      .send(err.toString())
   )
 })
 
@@ -31,7 +37,10 @@ router.get('/:movieId/cast', (req, res) => {
   let movieId = req.params.movieId
   movie.getCast(movieId).then(
     result => res.status(200).json(result),
-    err => res.status(err.respCode || 500).send(err.toString())
+    err => res
+      .status(err.respCode || 500)
+      .set('Content-Type', 'application/json')
+      .send(err.toString())
   )
 })
 
