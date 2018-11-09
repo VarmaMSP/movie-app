@@ -19,7 +19,7 @@ async function validateCredentials (name: string, email: string): Promise<void> 
   }
   if (user && user.name === name) {
     throw new AppError(
-      400, 'An Account with given email already exists.',
+      400, 'An Account with given user name already exists.',
       '', 'model.user.validateCredentials'
     )
   }
