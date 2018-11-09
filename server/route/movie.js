@@ -1,9 +1,12 @@
 import express from 'express'
 
+import authMiddleware from 'middleware/authentication'
 import movie from 'model/movie'
 import { AppError } from 'model/utils'
 
 const router = express.Router()
+
+router.use(authMiddleware)
 
 router.get('/results', (req, res) => {
   let searchQuery = req.query['search_query']

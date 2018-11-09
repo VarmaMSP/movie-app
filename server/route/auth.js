@@ -7,7 +7,10 @@ router.post('/login', (req, res) => {
   const email = req.body.email
   const password = req.body.password
   user.find(email, password).then(
-    result => res.status(200).json(result),
+    result => {
+      req.session.user = result
+      res.status(200).json(result)
+    },
     err => res
       .status(err.respCode || 500)
       .set('Content-Type', 'application/json')

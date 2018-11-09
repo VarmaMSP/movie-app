@@ -1,7 +1,7 @@
 // @flow
 import DB from 'store/db'
 import TMDB from 'store/tmdb'
-import env from 'store/env'
+import env_ from 'store/env'
 
 async function newClient (apiKey: string): Promise<TMDB> {
   let tmdb = new TMDB(apiKey)
@@ -14,12 +14,14 @@ async function newClient (apiKey: string): Promise<TMDB> {
   return tmdb
 }
 
-export let tmdbP = newClient(env['TMDB_API_KEY'])
+export let tmdbP = newClient(env_['TMDB_API_KEY'])
 
 export let db = new DB({
   connectionLimit: 5,
-  host: env['MYSQL_HOST'],
-  user: env['MYSQL_USERNAME'],
-  password: env['MYSQL_PASSWORD'],
+  host: env_['MYSQL_HOST'],
+  user: env_['MYSQL_USERNAME'],
+  password: env_['MYSQL_PASSWORD'],
   database: 'movie_app'
 })
+
+export let env = env_
