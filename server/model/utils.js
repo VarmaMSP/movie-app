@@ -14,19 +14,11 @@ export class AppError extends Error {
     this.path = path
   }
 
-  getRespCode (): number {
-    return this.respCode
-  }
-
   toString (): string {
-    return this.message
-  }
-
-  toJson (): {[string]: any} {
-    return {
+    return JSON.stringify({
       error: true,
       message: this.message
-    }
+    })
   }
 }
 

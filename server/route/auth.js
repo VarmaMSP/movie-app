@@ -8,7 +8,7 @@ router.post('/login', (req, res) => {
   const password = req.body.password
   user.find(email, password).then(
     result => res.status(200).json(result),
-    err => res.status(err.getRespCode()).json(err.toJson())
+    err => res.status(err.respCode || 500).send(err.toString())
   )
 })
 
@@ -18,7 +18,7 @@ router.post('/signup', (req, res) => {
   const password = req.body.password
   user.create(name, email, password).then(
     result => res.status(200).json(result),
-    err => res.status(err.getRespCode()).json(err.toJson())
+    err => res.status(err.respCode || 500).send(err.toString())
   )
 })
 
