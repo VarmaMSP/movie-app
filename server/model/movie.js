@@ -2,6 +2,7 @@
 import ISO6391 from 'iso-639-1'
 
 import { tmdbP } from 'store'
+import bookmart from 'model/bookmart'
 
 type MovieStatus =
     'Rumored'
@@ -20,7 +21,8 @@ type MovieDetails = {|
   status: MovieStatus,
   rating: number,
   releaseDate: string,
-  runtime: number
+  runtime: number,
+  opinion?: 'LIKE' | 'DISLIKE'
 |}
 
 type CastMember = {|
@@ -29,33 +31,40 @@ type CastMember = {|
   poster: ?string
 |}
 
-async function getById (movieId: number): Promise<MovieDetails> {
+async function getById (userId: number, movieId: number): Promise<MovieDetails> {
   const tmdb = await tmdbP
   const resp = await tmdb.getMovie(movieId)
-  return {
+  const details = {
     id: resp.id,
     title: resp.title,
     language: ISO6391.getName(resp.original_language),
-    poster: resp.poster_path ? tmdb.getPosterUrl(resp.poster_path, 'M') : undefined,
-    backdrop: resp.backdrop_path ? tmdb.getBackdropUrl(resp.backdrop_path, 'L') : undefined,
+    poster: tmdb.getPosterRoute(resp.poster_path, 'M'),
+    backdrop: tmdb.getBackdropRoute(resp.backdrop_path, 'L'),
     status: resp.status,
     releaseDate: resp.release_date,
     rating: resp.vote_average,
-    runtime: resp.runtime
+    runtime: resp.runtime,
+    opinion: undefined
   }
+  try {
+    details.opinion = await bookmart.getUserOpinion(userId, movieId)
+  } catch (err) {}
+  return details
 }
 
 async function getCast (movieId: number): Promise<Array<CastMember>> {
   const tmdb = await tmdbP
   const resp = await tmdb.getMovieCredits(movieId)
-  return resp.cast.map(c => ({
+  return resp.cast.slice(0, 6).map(c => ({
     name: c.name,
     character: c.character,
-    poster: c.profile_path ? tmdb.getProfileUrl(c.profile_path, 'M') : undefined
+    poster: tmdb.getProfileRoute(c.profile_path, 'M')
   }))
 }
 
-async function searchMovies (searchQuery: string, page: number): Promise<{ total: number, movies: Array<MovieDetails> }> {
+type SearchResp = { total: number, movies: Array<MovieDetails> }
+
+async function search (searchQuery: string, page: number): Promise<SearchResp> {
   const tmdb = await tmdbP
   const resp = await tmdb.searchMovies(searchQuery, page)
   return {
@@ -64,8 +73,8 @@ async function searchMovies (searchQuery: string, page: number): Promise<{ total
       id: m.id,
       title: m.title,
       language: ISO6391.getName(m.original_language),
-      poster: m.poster_path ? tmdb.getPosterUrl(m.poster_path, 'M') : undefined,
-      backdrop: m.backdrop_path ? tmdb.getBackdropUrl(m.backdrop_path, 'L') : undefined,
+      poster: tmdb.getPosterRoute(m.poster_path, 'M'),
+      backdrop: tmdb.getBackdropRoute(m.backdrop_path, 'L'),
       status: m.status,
       releaseDate: m.release_date,
       rating: m.vote_average,
@@ -74,4 +83,4 @@ async function searchMovies (searchQuery: string, page: number): Promise<{ total
   }
 }
 
-export default { getById, getCast, searchMovies }
+export default { getById, getCast, search }

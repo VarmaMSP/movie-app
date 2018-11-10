@@ -1,6 +1,5 @@
 // @flow
 import bcrypt from 'bcrypt'
-import validate from 'validate.js'
 
 export class AppError extends Error {
   respCode: number
@@ -52,15 +51,6 @@ export function comparePassword (password: string, hash: string): Promise<void> 
   })
 }
 
-export function validateEmail (email: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const err = validate({ from: email }, { from: { email: true } })
-    if (err) {
-      return reject(new AppError(
-        400, 'Please enter a vaild email',
-        '', 'model.user.validateEmail'
-      ))
-    }
-    resolve()
-  })
+export async function saveImage (): Promise<string> {
+  return 'to be implemented'
 }

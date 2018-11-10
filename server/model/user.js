@@ -1,7 +1,7 @@
 // @flow
 
 import { db } from 'store'
-import { AppError, hashPassword, comparePassword, validateEmail } from 'model/utils'
+import { AppError, hashPassword, comparePassword } from 'model/utils'
 
 type UserDetails = {
   id: number,
@@ -9,8 +9,9 @@ type UserDetails = {
   email: string
 }
 
-async function validateCredentials (name: string, email: string): Promise<void> {
-  const [ user ] = await db.query('SELECT * FROM user where name = ? OR email = ?', [name, email])
+async function create (name: string, email: string, password: string): Promise<UserDetails> {
+  const sql = 'SELECT * FROM user where name = ? OR email = ?'
+  const [ user ] = await db.query(sql, [name, email])
   if (user && user.name === name && user.email === email) {
     throw new AppError(
       400, 'An Accout with given credentials already exists.',
@@ -29,14 +30,10 @@ async function validateCredentials (name: string, email: string): Promise<void> 
       '', 'model.user.validateCredentials'
     )
   }
-}
-
-async function create (name: string, email: string, password: string): Promise<UserDetails> {
-  await validateEmail(email)
-  await validateCredentials(name, email)
+  const sql_ = 'INSERT INTO user SET ?'
   const newUser = { name, email, password: await hashPassword(password) }
-  const { insertId } = await db.query('INSERT INTO user SET ?', [newUser])
-  if (!insertId) {
+  const { insertId, affectedRows } = await db.query(sql_, [newUser])
+  if (insertId === 0 && affectedRows === 0) {
     throw new AppError(
       500, 'Unable to sign you up, something went wrong.',
       '', 'model.user.create'
@@ -45,11 +42,12 @@ async function create (name: string, email: string, password: string): Promise<U
   return { id: Number(insertId), name, email }
 }
 
-async function find (email: string, password: string): Promise<UserDetails> {
-  const [ user ] = await db.query('SELECT * FROM user where email = ? LIMIT 1', [email])
+async function get (email: string, password: string): Promise<UserDetails> {
+  const sql = 'SELECT * FROM user where email = ? LIMIT 1'
+  const [ user ] = await db.query(sql, [email])
   if (!user) {
     throw new AppError(
-      400, 'User with given email does not exist',
+      404, 'User with given email does not exist',
       '', 'model.user.find'
     )
   }
@@ -57,4 +55,4 @@ async function find (email: string, password: string): Promise<UserDetails> {
   return { id: user.id, name: user.name, email: user.email }
 }
 
-export default { find, create }
+export default { create, get }
