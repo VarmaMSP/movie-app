@@ -16,14 +16,34 @@ export default class TMDB {
     this.baseUrl = 'https://api.themoviedb.org/3'
   }
 
-  async setConfig () {
-    const { images } = await this.getConfig()
-    this.imgConfig = {
-      baseUrl: images.base_url,
-      posterSizes: images.poster_sizes.slice(-3),
-      profileSizes: images.profile_sizes.slice(-3),
-      backdropSizes: images.backdrop_sizes.slice(-3)
-    }
+  getConfigRoute (): string {
+    return `${this.baseUrl}/configuration`
+  }
+
+  getMovieRoute (movieId: number | string): string {
+    return `${this.baseUrl}/movie/${movieId}`
+  }
+
+  getSearchRoute (): string {
+    return `${this.baseUrl}/search/movie`
+  }
+
+  getPosterRoute (src: ?string, size: 'S' | 'M' | 'L'): ?string {
+    if (src && size === 'S') return `${this.imgConfig.baseUrl}${this.imgConfig.posterSizes[0]}/${src}`
+    if (src && size === 'M') return `${this.imgConfig.baseUrl}${this.imgConfig.posterSizes[1]}/${src}`
+    if (src && size === 'L') return `${this.imgConfig.baseUrl}${this.imgConfig.posterSizes[2]}/${src}`
+  }
+
+  getProfileRoute (src: ?string, size: 'S' | 'M' | 'L'): ?string {
+    if (src && size === 'S') return `${this.imgConfig.baseUrl}${this.imgConfig.profileSizes[0]}/${src}`
+    if (src && size === 'M') return `${this.imgConfig.baseUrl}${this.imgConfig.profileSizes[1]}/${src}`
+    if (src && size === 'L') return `${this.imgConfig.baseUrl}${this.imgConfig.profileSizes[2]}/${src}`
+  }
+
+  getBackdropRoute (src: ?string, size: 'S' | 'M' | 'L'): ?string {
+    if (src && size === 'S') return `${this.imgConfig.baseUrl}${this.imgConfig.backdropSizes[0]}/${src}`
+    if (src && size === 'M') return `${this.imgConfig.baseUrl}${this.imgConfig.backdropSizes[1]}/${src}`
+    if (src && size === 'L') return `${this.imgConfig.baseUrl}${this.imgConfig.backdropSizes[2]}/${src}`
   }
 
   async doFetch (url: string): Promise<any> {
@@ -52,53 +72,28 @@ export default class TMDB {
     return data
   }
 
-  getConfigRoute (): string {
-    return `${this.baseUrl}/configuration`
-  }
-
-  getMovieRoute (movieId: number): string {
-    return `${this.baseUrl}/movie/${movieId}`
-  }
-
-  getSearchMoviesRoute (): string {
-    return `${this.baseUrl}/search/movie`
-  }
-
-  getConfig (): Promise<any> {
-    const queryParams = `api_key=${this.apiKey}`
-    return this.doFetch(`${this.getConfigRoute()}?${queryParams}`)
-  }
-
-  getMovie (movieId: number): Promise<any> {
+  async getMovie (movieId: number | string): Promise<any> {
     const queryParams = `api_key=${this.apiKey}&language=en-US`
     return this.doFetch(`${this.getMovieRoute(movieId)}?${queryParams}`)
   }
 
-  getMovieCredits (movieId: number): Promise<any> {
+  async getMovieCredits (movieId: number | string): Promise<any> {
     const queryParams = `api_key=${this.apiKey}`
     return this.doFetch(`${this.getMovieRoute(movieId)}/credits?${queryParams}`)
   }
 
-  searchMovies (searchQuery: string, page: number): Promise<any> {
+  async searchMovies (searchQuery: string, page: number | string): Promise<any> {
     const queryParams = `api_key=${this.apiKey}&query=${searchQuery}&page=${page}&include_adult=false`
-    return this.doFetch(`${this.getSearchMoviesRoute()}?${queryParams}`)
+    return this.doFetch(`${this.getSearchRoute()}?${queryParams}`)
   }
 
-  getPosterUrl (src: string, size: 'S' | 'M' | 'L') {
-    if (size === 'S') return `${this.imgConfig.baseUrl}${this.imgConfig.posterSizes[0]}/${src}`
-    if (size === 'M') return `${this.imgConfig.baseUrl}${this.imgConfig.posterSizes[1]}/${src}`
-    if (size === 'L') return `${this.imgConfig.baseUrl}${this.imgConfig.posterSizes[2]}/${src}`
-  }
-
-  getProfileUrl (src: string, size: 'S' | 'M' | 'L') {
-    if (size === 'S') return `${this.imgConfig.baseUrl}${this.imgConfig.profileSizes[0]}/${src}`
-    if (size === 'M') return `${this.imgConfig.baseUrl}${this.imgConfig.profileSizes[1]}/${src}`
-    if (size === 'L') return `${this.imgConfig.baseUrl}${this.imgConfig.profileSizes[2]}/${src}`
-  }
-
-  getBackdropUrl (src: string, size: 'S' | 'M' | 'L') {
-    if (size === 'S') return `${this.imgConfig.baseUrl}${this.imgConfig.backdropSizes[0]}/${src}`
-    if (size === 'M') return `${this.imgConfig.baseUrl}${this.imgConfig.backdropSizes[1]}/${src}`
-    if (size === 'L') return `${this.imgConfig.baseUrl}${this.imgConfig.backdropSizes[2]}/${src}`
+  async setConfig () {
+    const { images } = await this.doFetch(`${this.getConfigRoute()}?api_key=${this.apiKey}`)
+    this.imgConfig = {
+      baseUrl: images.base_url,
+      posterSizes: images.poster_sizes.slice(-3),
+      profileSizes: images.profile_sizes.slice(-3),
+      backdropSizes: images.backdrop_sizes.slice(-3)
+    }
   }
 }
