@@ -1,0 +1,14 @@
+{
+  "extends": "../.babelrc",
+  "overrides": [{
+    "presets": [
+      ["@babel/preset-env", {"targets": "last 3 version"}],
+      "@babel/preset-flow",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      ["@babel/plugin-proposal-class-properties", { "loose": false }],
+      ["import", { "libraryName": "antd", "style": true }]
+    ]
+  }]
+}
