@@ -9,6 +9,7 @@ export default class DB {
 
   constructor (opts: PoolOptions) {
     this.pool = mysql.createPool(opts)
+    console.log('INFO: Successfully connected to MYSQL.')
   }
 
   getPool (): Pool {

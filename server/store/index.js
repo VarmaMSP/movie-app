@@ -8,9 +8,10 @@ async function newClient (apiKey: string): Promise<TMDB> {
   try {
     await tmdb.setConfig()
   } catch (err) {
-    console.log('Cannot Configure TMDB client. ERROR: ', err.toString())
+    console.log('ERROR: Cannot configure TMDB client. ', err.toString())
     process.exit(1)
   }
+  console.log('INFO: Successfully configured TMDB client.')
   return tmdb
 }
 

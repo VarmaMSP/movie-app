@@ -20,7 +20,7 @@ export default class TMDB {
     return `${this.baseUrl}/configuration`
   }
 
-  getMovieRoute (movieId: number | string): string {
+  getMovieRoute (movieId: number): string {
     return `${this.baseUrl}/movie/${movieId}`
   }
 
@@ -47,6 +47,7 @@ export default class TMDB {
   }
 
   async doFetch (url: string): Promise<any> {
+    console.log('INFO: (TMDB client) GET ' + url + '.')
     let data
     try {
       let response = await fetch(url)
@@ -72,17 +73,17 @@ export default class TMDB {
     return data
   }
 
-  async getMovie (movieId: number | string): Promise<any> {
+  async getMovie (movieId: number): Promise<any> {
     const queryParams = `api_key=${this.apiKey}&language=en-US`
     return this.doFetch(`${this.getMovieRoute(movieId)}?${queryParams}`)
   }
 
-  async getMovieCredits (movieId: number | string): Promise<any> {
+  async getMovieCredits (movieId: number): Promise<any> {
     const queryParams = `api_key=${this.apiKey}`
     return this.doFetch(`${this.getMovieRoute(movieId)}/credits?${queryParams}`)
   }
 
-  async searchMovies (searchQuery: string, page: number | string): Promise<any> {
+  async searchMovies (searchQuery: string, page: number): Promise<any> {
     const queryParams = `api_key=${this.apiKey}&query=${searchQuery}&page=${page}&include_adult=false`
     return this.doFetch(`${this.getSearchRoute()}?${queryParams}`)
   }

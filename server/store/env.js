@@ -22,4 +22,6 @@ if (a.length === 0 || b.length === 0 || c.length === 0 || d.length === 0 || e.le
   process.exit(1)
 }
 
+console.log('INFO: Successfully loaded .env.')
+
 export default env
