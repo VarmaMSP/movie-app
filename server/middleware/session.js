@@ -14,11 +14,11 @@ const storeOpts = {
     }
   }
 }
-const sessionStore = new MYSQLStore(storeOpts, db.getPool())
 
 export default session({
+  store: new MYSQLStore(storeOpts, db.getPool()),
   secret: env['COOKIE_SECRET'],
-  store: sessionStore,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  unset: 'destroy'
 })
