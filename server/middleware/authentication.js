@@ -1,8 +1,8 @@
 export default (req, res, next) => {
   if (!req.session.user) {
-    res.status(404).json({
+    res.status(401).json({
       error: true,
-      message: 'Not Authorized'
+      message: 'Not Authorized, please login.'
     })
     return
   }
