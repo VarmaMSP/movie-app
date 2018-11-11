@@ -31,13 +31,19 @@ async function create (userId: number, movieId: number, action: Opinion): Promis
   return { userId, movieId, opinion: action }
 }
 
-async function getAll (userId: number): Promise<{[Opinion]: Array<BookmartDetails>}> {
-  const sql = 'SELECT * FROM bookmart WHERE user_id = ?'
-  const bookmarts: Array<Object> = await db.query(sql, [userId])
-
-  const res = { LIKE: [], DISLIKE: [] }
-  for (let i = 0; i < bookmarts.length; ++i) {
-    res[bookmarts[i].opinion].push(bookmarts[i].movie_id)
+async function getOpinionCount (userId: number): Promise<{[string]: number}> {
+  const sql = `
+    SELECT 
+      LOWER(bookmart.opinion) AS opinion, COUNT(*) AS cnt FROM bookmart 
+    INNER JOIN user
+      ON bookmart.user_id = user.id 
+    WHERE user_id = ? 
+    GROUP BY (bookmart.opinion)
+  `
+  const opinions: Array<Object> = await db.query(sql, [userId])
+  const res = { like: 0, dislike: 0 }
+  for (let i = 0; i < opinions.length; ++i) {
+    res[opinions[i].opinion] = opinions[i].cnt
   }
   return res
 }
@@ -54,4 +60,4 @@ async function getUserOpinion (userId: number, movieId: number): Promise<Opinion
   return bookmart.opinion
 }
 
-export default { create, getAll, getUserOpinion }
+export default { create, getOpinionCount, getUserOpinion }

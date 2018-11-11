@@ -10,11 +10,11 @@ function getProfile (req, res) {
   const userId = req.params.userId || req.session.user.id
   Promise.all([
     profile.getByUserId(userId),
-    bookmart.getAll(userId)
+    bookmart.getOpinionCount(userId)
   ]).then(
-    ([profile_, bookmarts]) => {
+    ([profile_, { like, dislike }]) => {
       res.status(200)
-      res.json({ ...profile_, bookmarts })
+      res.json({ ...profile_, likes: like, dislikes: dislike })
     }
   ).catch(
     err => res
