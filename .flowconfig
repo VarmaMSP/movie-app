@@ -8,5 +8,6 @@
 
 [options]
 module.system.node.resolve_dirname=server
+module.system.node.resolve_dirname=web
 
 [strict]
