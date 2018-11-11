@@ -26,6 +26,7 @@ type MovieDetails = {|
 |}
 
 type CastMember = {|
+  id: number,
   name: string,
   character: string,
   poster: ?string
@@ -56,6 +57,7 @@ async function getCast (movieId: number): Promise<Array<CastMember>> {
   const tmdb = await tmdbP
   const resp = await tmdb.getMovieCredits(movieId)
   return resp.cast.slice(0, 6).map(c => ({
+    id: c.id,
     name: c.name,
     character: c.character,
     poster: tmdb.getProfileRoute(c.profile_path, 'M')
