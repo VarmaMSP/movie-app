@@ -3,6 +3,8 @@ import type { User, Profile } from 'types/profile'
 import type { Movie } from 'types/movie'
 import type { CastMember } from 'types/actor'
 
+import { AppError } from 'utils/error'
+
 export default class Client {
   url: string
   includeCookies: boolean
@@ -50,14 +52,12 @@ export default class Client {
       data = await response.json()
     } catch (err) {
       console.log(err)
-      throw new Error('Received Invalid Response.')
+      throw new AppError(500, ['Cannot reach server, something went wrong.'])
     }
-
-    if (response.status >= 200 && response.status < 300) {
-      return data
-    } else {
-      throw new Error('somethinf')
+    if (data.error) {
+      throw new AppError(response.status, data.message)
     }
+    return data
   }
 
   login (email: string, password: string): Promise<User> {
