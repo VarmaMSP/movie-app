@@ -1,0 +1,97 @@
+// @flow
+import type { User, Profile } from 'types/profile'
+import type { Movie } from 'types/movie'
+import type { CastMember } from 'types/actor'
+
+export default class Client {
+  url: string
+  includeCookies: boolean
+
+  constructor () {
+    this.url = ''
+    this.includeCookies = true
+  }
+
+  setUrl (url: string) {
+    this.url = url
+  }
+
+  getBaseRoute (): string {
+    return `${this.url}/api`
+  }
+
+  getAuthRoute (): string {
+    return `${this.getBaseRoute()}/auth`
+  }
+
+  getMovieRoute (): string {
+    return `${this.getBaseRoute()}/movie`
+  }
+
+  getProfileRoute (): string {
+    return `${this.getBaseRoute()}/profile`
+  }
+
+  getSearchRoute (): string {
+    return `${this.getBaseRoute()}/search`
+  }
+
+  async doFetch (method: string, url: string, body: ?Object): Promise<any> {
+    const request = new Request(url, {
+      method,
+      headers: new Headers(),
+      body: JSON.stringify(body),
+      credentials: this.includeCookies ? 'include' : undefined
+    })
+
+    let response, data
+    try {
+      response = await fetch(request)
+      data = await response.json()
+    } catch (err) {
+      console.log(err)
+      throw new Error('Received Invalid Response.')
+    }
+
+    if (response.status >= 200 && response.status < 300) {
+      return data
+    } else {
+      throw new Error('somethinf')
+    }
+  }
+
+  login (email: string, password: string): Promise<User> {
+    return this.doFetch('POST', `${this.getAuthRoute()}/login`, { email, password })
+  }
+
+  logout (): Promise<void> {
+    return this.doFetch('POST', `${this.getAuthRoute()}/logout`)
+  }
+
+  signup (name: string, email: string, password: string): Promise<User> {
+    return this.doFetch('POST', `${this.getAuthRoute()}/signup`, { name, email, password })
+  }
+
+  getMovieById (movieId: number): Promise<Movie> {
+    return this.doFetch('GET', `${this.getMovieRoute()}/movie/${movieId}`)
+  }
+
+  getMovieCast (movieId: number): Promise<Array<CastMember>> {
+    return this.doFetch('GET', `${this.getMovieRoute()}/movie/cast/${movieId}`)
+  }
+
+  bookmartMovie (movieId: number, action: 'LIKE' | 'DISLIKE'): Promise<mixed> {
+    return this.doFetch('POST', `${this.getMovieRoute()}/movie/cast/${movieId}`, { action })
+  }
+
+  getProfile (userId: ?number): Promise<Profile> {
+    return this.doFetch('GET', `${this.getProfileRoute()}/${userId || ''}`)
+  }
+
+  search (searchQuery: string): Promise<{|profiles: Array<Profile>, movies: Array<Movie>|}> {
+    return this.doFetch('GET', `${this.getSearchRoute()}?search_query=${searchQuery}`)
+  }
+  searchMovies (searchQuery: string, page: number): Promise<{|total: number, movies: Array<Movie>|}> {
+    return this.doFetch('GET', `${this.getSearchRoute()}/movie?search_query=${searchQuery}&page=${page}`)
+  }
+}
