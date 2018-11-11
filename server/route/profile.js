@@ -12,9 +12,9 @@ function getProfile (req, res) {
     profile.getByUserId(userId),
     bookmart.getOpinionCount(userId)
   ]).then(
-    ([profile_, { like, dislike }]) => {
+    ([profile_, opinionCount]) => {
       res.status(200)
-      res.json({ ...profile_, likes: like, dislikes: dislike })
+      res.json({ ...profile_, ...opinionCount })
     }
   ).catch(
     err => res

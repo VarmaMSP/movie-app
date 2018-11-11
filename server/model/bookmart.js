@@ -41,9 +41,9 @@ async function getOpinionCount (userId: number): Promise<{[string]: number}> {
     GROUP BY (bookmart.opinion)
   `
   const opinions: Array<Object> = await db.query(sql, [userId])
-  const res = { like: 0, dislike: 0 }
+  const res = { likes: 0, dislikes: 0 }
   for (let i = 0; i < opinions.length; ++i) {
-    res[opinions[i].opinion] = opinions[i].cnt
+    res[opinions[i].opinion + 's'] = opinions[i].cnt
   }
   return res
 }
