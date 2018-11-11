@@ -7,8 +7,10 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "setup": "yarn install --ignore-engines",
-    "setup:flow": "flow-typed install"
+    "setup": "yarn install --ignore-engines && flow-typed install",
+    "setup:flow": "flow-typed install",
+    "build": "webpack --config web/webpack.config.js -p",
+    "build:watch": "webpack --watch --config web/webpack.config.js"
   },
   "dependencies": {
     "antd": "^3.9.3",
@@ -39,14 +41,18 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.2",
     "babel-plugin-import": "^1.9.1",
     "babel-plugin-module-resolver": "^3.1.1",
     "css-loader": "^1.0.0",
     "eslint-plugin-flowtype": "^2.50.1",
     "flow-bin": "^0.81.0",
     "flow-typed": "^2.5.1",
+    "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.4.3",
+    "node-sass": "^4.10.0",
+    "sass-loader": "^7.1.0",
     "standard": "^12.0.1",
     "webpack": "^4.20.0",
     "webpack-cli": "^3.1.1"
@@ -62,7 +68,8 @@
     ],
     "globals": [
       "chai",
-      "expect"
+      "expect",
+      "SyntheticKeyboardEvent"
     ]
   }
 }
