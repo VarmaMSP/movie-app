@@ -5,7 +5,7 @@ import authRouter from 'route/auth'
 import movieRouter from 'route/movie'
 import searchRouter from 'route/search'
 import profileRouter from 'route/profile'
-import loggerMiddleware from 'middleware/logging'
+import loggerMiddleware from 'middleware/logger'
 import sessionMiddleware from 'middleware/session'
 
 const app = express()
