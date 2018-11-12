@@ -105,7 +105,7 @@ export default class Profile extends Component<Props, State> {
           }
           {canEdit
             ? <div className='others'>
-              <Button type='primary' onClick={this.handleSubmit}>
+              <Button type='primary' loading={loading} onClick={this.handleSubmit}>
                 {'Update your profile'}
               </Button>
             </div>

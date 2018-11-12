@@ -40,7 +40,7 @@ export default class LoginForm extends Component<Props, State> {
   handleEmailChange = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.target instanceof HTMLInputElement) {
       const email = e.target.value
-      this.setState({ email: email.trim() })
+      this.setState({ email })
     }
   }
 
@@ -52,8 +52,9 @@ export default class LoginForm extends Component<Props, State> {
   }
 
   handleSubmit = () => {
+    const email = this.state.email.trim()
+    const password = this.state.password.trim()
     const { login } = this.props
-    const { email, password } = this.state
 
     if (email.length === 0 || password.length === 0) {
       return

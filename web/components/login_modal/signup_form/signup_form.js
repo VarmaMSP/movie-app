@@ -44,14 +44,14 @@ export default class SignupForm extends Component<Props, State> {
   handleNameChange = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.target instanceof HTMLInputElement) {
       const name = e.target.value
-      this.setState({ name: name.trim() })
+      this.setState({ name })
     }
   }
 
   handleEmailChange = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (e.target instanceof HTMLInputElement) {
       const email = e.target.value
-      this.setState({ email: email.trim() })
+      this.setState({ email })
     }
   }
 
@@ -70,8 +70,11 @@ export default class SignupForm extends Component<Props, State> {
   }
 
   handleSubmit = () => {
+    const name = this.state.name.trim()
+    const email = this.state.email.trim()
+    const password = this.state.password.trim()
+    const passwordAgain = this.state.passwordAgain.trim()
     const { signup } = this.props
-    const { name, email, password, passwordAgain } = this.state
 
     if (name.length === 0 || email.length === 0 || password.length === 0) {
       return
