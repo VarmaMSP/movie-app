@@ -5,13 +5,11 @@ import type { Dispatch } from 'types/action'
 import { connect } from 'react-redux'
 import { AuthTypes } from 'actions/types'
 import { signup } from 'actions/entities/auth'
-import { getLoggedInUser } from 'selectors/user'
 import { isLoading, getErrors } from 'selectors/api'
 import SignupForm from 'components/login_modal/signup_form/signup_form'
 
 function mapStateToProps (state: State) {
   return {
-    loggedIn: Boolean(getLoggedInUser(state)),
     loading: isLoading(state, [AuthTypes.SIGNUP]),
     errors: getErrors(state, [AuthTypes.SIGNUP])
   }

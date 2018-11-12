@@ -1,11 +1,9 @@
 // @flow
-
 import React, { Component } from 'react'
 import { Input, Button, message } from 'antd'
 import { isValidEmail } from 'utils/utils'
 
 type Props = {|
-  loggedIn: boolean,
   loading: boolean,
   errors: ?Array<string>,
   login: (string, string) => void,
