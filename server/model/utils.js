@@ -16,7 +16,7 @@ export class AppError extends Error {
   toString (): string {
     return JSON.stringify({
       error: true,
-      message: this.message
+      message: [this.message]
     })
   }
 }
