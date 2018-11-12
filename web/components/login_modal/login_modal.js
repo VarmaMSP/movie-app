@@ -2,8 +2,8 @@
 import React from 'react'
 import { Modal, Row, Col } from 'antd'
 
-import LoginForm from 'components/login_form'
-import SignupForm from 'components/signup_form'
+import LoginForm from 'components/login_modal/login_form'
+import SignupForm from 'components/login_modal/signup_form'
 
 const LoginModal = () => {
   return (

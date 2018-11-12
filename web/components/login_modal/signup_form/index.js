@@ -7,7 +7,7 @@ import { AuthTypes } from 'actions/types'
 import { signup } from 'actions/entities/auth'
 import { getLoggedInUser } from 'selectors/user'
 import { isLoading, getErrors } from 'selectors/api'
-import SignupForm from 'components/signup_form/signup_form'
+import SignupForm from 'components/login_modal/signup_form/signup_form'
 
 function mapStateToProps (state: State) {
   return {

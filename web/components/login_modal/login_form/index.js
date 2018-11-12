@@ -7,7 +7,7 @@ import { AuthTypes } from 'actions/types'
 import { login } from 'actions/entities/auth'
 import { getLoggedInUser } from 'selectors/user'
 import { isLoading, getErrors } from 'selectors/api'
-import LoginForm from 'components/login_form/login_form'
+import LoginForm from 'components/login_modal/login_form/login_form'
 
 function mapStateToProps (state: State) {
   return {
