@@ -15,7 +15,7 @@ export function login (email: string, password: string) {
 
 export function logout () {
   return defaultApiThunk(
-    client.logout,
+    () => client.logout(),
     [],
     AuthTypes.LOGOUT_REQUEST,
     AuthTypes.LOGOUT_SUCCESS,

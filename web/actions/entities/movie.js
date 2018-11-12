@@ -25,7 +25,7 @@ export function getMovieCast (movieId: number) {
 
 export function bookmartMovie (movieId: number, action: 'LIKE' | 'DISLIKE') {
   return defaultApiThunk(
-    (a, b) => client.bookmartMovie(a),
+    (a, b) => client.bookmartMovie(a, b),
     [movieId, action],
     MovieTypes.BOOKMART_MOVIE_REQUEST,
     MovieTypes.BOOKMART_MOVIE_SUCCESS,
