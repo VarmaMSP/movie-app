@@ -1,5 +1,7 @@
 // @flow
 import bcrypt from 'bcrypt'
+import path from 'path'
+import { outputFile } from 'image-data-uri'
 
 export class AppError extends Error {
   respCode: number
@@ -51,6 +53,15 @@ export function comparePassword (password: string, hash: string): Promise<void> 
   })
 }
 
-export async function saveImage (): Promise<string> {
-  return 'to be implemented'
+export async function saveImage (base64URI: ?string): Promise<?string> {
+  const filename = `${Math.random().toString(36).substring(7)}.png`
+  try {
+    await outputFile(base64URI, path.resolve(__dirname, '..', '..', 'docs', 'static', 'img', filename))
+  } catch (err) {
+    throw new AppError(
+      500, 'Something went wrong, could not save avatar.',
+      '', 'utils.saveImage'
+    )
+  }
+  return '/img/' + filename
 }

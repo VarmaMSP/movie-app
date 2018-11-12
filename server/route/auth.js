@@ -7,7 +7,10 @@ import validationMiddleware from 'middleware/validation'
 function signup (req, res) {
   const { name, email, password } = req.body
   user.create(name, email, password).then(
-    result => res.status(201).json(result),
+    result => {
+      res.session.user = result
+      res.status(201).json(result)
+    },
     err => res
       .status(err.respCode || 500)
       .set('Content-Type', 'application/json')

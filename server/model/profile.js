@@ -1,7 +1,7 @@
 // @flow
 
 import { db } from 'store'
-import { AppError } from 'model/utils'
+import { AppError, saveImage } from 'model/utils'
 
 type ProfileDetails = {
     userId: number,
@@ -29,14 +29,20 @@ async function getByUserId (userId: number): Promise<ProfileDetails> {
   }
 }
 
-async function update (userId: number, about: string, avatar: string): Promise<void> {
+async function update (userId: number, about: string, avatar: string): Promise<mixed> {
+  const filename = await saveImage(avatar)
   const sql = 'UPDATE user SET ? WHERE id = ?'
-  const { affectedRows } = await db.query(sql, [{ about, avatar }, userId])
+  const { affectedRows } = await db.query(sql, [{ about, avatar: filename }, userId])
   if (affectedRows === 0) {
     throw new AppError(
-      404, 'Cannot find user with given id',
-      `Id: ${userId}`, 'model.profile.save'
+      500, 'Somethin went wrong, cannot update profile',
+      '', 'model.profile.update'
     )
+  }
+  return {
+    userId,
+    about,
+    avatar: filename
   }
 }
 
