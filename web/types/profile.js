@@ -1,6 +1,7 @@
 // @flow
 
 export type User = {|
+  id: number,
   name: string,
   email: string
 |}
@@ -15,5 +16,5 @@ export type Profile = {|
 
 export type ProfileState = {|
   byId: {[userId:number]: Profile},
-  loggedinProfile: ?number
+  loggedInUser: ?User
 |}
