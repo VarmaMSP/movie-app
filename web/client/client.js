@@ -73,15 +73,15 @@ export default class Client {
   }
 
   getMovieById (movieId: number): Promise<Movie> {
-    return this.doFetch('GET', `${this.getMovieRoute()}/movie/${movieId}`)
+    return this.doFetch('GET', `${this.getMovieRoute()}/${movieId}`)
   }
 
   getMovieCast (movieId: number): Promise<Array<CastMember>> {
-    return this.doFetch('GET', `${this.getMovieRoute()}/movie/cast/${movieId}`)
+    return this.doFetch('GET', `${this.getMovieRoute()}/cast/${movieId}`)
   }
 
   bookmartMovie (movieId: number, action: 'LIKE' | 'DISLIKE'): Promise<mixed> {
-    return this.doFetch('POST', `${this.getMovieRoute()}/movie/cast/${movieId}`, { action })
+    return this.doFetch('POST', `${this.getMovieRoute()}/cast/${movieId}`, { action })
   }
 
   getProfile (userId: ?number): Promise<Profile> {
