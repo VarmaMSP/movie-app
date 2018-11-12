@@ -1,6 +1,7 @@
 // @flow
 import type { State } from 'types/store'
 import type { Dispatch } from 'types/action'
+import type { ComponentType } from 'react'
 
 import { connect } from 'react-redux'
 import { AuthTypes } from 'actions/types'
@@ -22,4 +23,4 @@ function mapDispatchToProps (dispatch: Dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupForm)
+export default (connect(mapStateToProps, mapDispatchToProps)(SignupForm): ComponentType<{}>)

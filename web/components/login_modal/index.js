@@ -1,5 +1,6 @@
 // @flow
 import type { State } from 'types/store'
+import type { ComponentType } from 'react'
 
 import { connect } from 'react-redux'
 import { getLoggedInUser } from 'selectors/user'
@@ -11,4 +12,4 @@ function mapStateToProps (state: State) {
   }
 }
 
-export default connect(mapStateToProps, undefined)(LoginModal)
+export default (connect(mapStateToProps)(LoginModal): ComponentType<{}>)

@@ -96,6 +96,7 @@ export default class SignupForm extends Component<Props, State> {
   }
 
   render () {
+    const { loading } = this.props
     const { name, email, password, passwordAgain } = this.state
     return (
       <div className='signup-form'>
@@ -134,6 +135,7 @@ export default class SignupForm extends Component<Props, State> {
             type='primary'
             size='default'
             onClick={this.handleSubmit}
+            loading={loading}
           >
             Signup
           </Button>

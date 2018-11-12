@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Input, Button, message } from 'antd'
 import { isValidEmail } from 'utils/utils'
 
-type Props = {|
+export type Props = {|
   loading: boolean,
   errors: ?Array<string>,
   login: (string, string) => void,
@@ -62,7 +62,6 @@ export default class LoginForm extends Component<Props, State> {
       message.error('Email is not valid.')
       return
     }
-    console.log(email, password)
     login(email, password)
   }
 
