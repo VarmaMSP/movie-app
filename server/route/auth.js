@@ -6,7 +6,7 @@ import validationMiddleware from 'middleware/validation'
 
 function signup (req, res) {
   const { name, email, password } = req.body
-  user.create((name: string), (email: string), (password: string)).then(
+  user.create(name, email, password).then(
     result => res.status(201).json(result),
     err => res
       .status(err.respCode || 500)
@@ -31,7 +31,7 @@ function login (req, res) {
 
 function logout (req, res) {
   req.session.destroy(() => {
-    res.status(200).send()
+    res.status(200).json({})
   })
 }
 
