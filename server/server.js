@@ -5,6 +5,7 @@ import authRouter from 'route/auth'
 import movieRouter from 'route/movie'
 import searchRouter from 'route/search'
 import profileRouter from 'route/profile'
+import loggerMiddleware from 'middleware/logging'
 import sessionMiddleware from 'middleware/session'
 
 const app = express()
@@ -13,6 +14,7 @@ const staticPath = path.resolve(__dirname, '..', 'docs', 'static')
 
 app.use('/', express.static(staticPath))
 app.use(express.json())
+app.use(loggerMiddleware)
 app.use(sessionMiddleware)
 
 app.use('/api/auth', authRouter)
