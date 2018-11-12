@@ -42,7 +42,7 @@ export default class Client {
     const request = new Request(url, {
       method,
       headers: new Headers({ 'Content-Type': 'application/json' }),
-      body: JSON.stringify(body),
+      body: body ? JSON.stringify(body) : undefined,
       credentials: this.includeCookies ? 'include' : undefined
     })
 
@@ -86,6 +86,10 @@ export default class Client {
 
   getProfile (userId: ?number): Promise<Profile> {
     return this.doFetch('GET', `${this.getProfileRoute()}/${userId || ''}`)
+  }
+
+  updateProfile (about: string, image: string): Promise<any> {
+    return this.doFetch('PATCH', this.getProfileRoute(), { about, image })
   }
 
   search (searchQuery: string): Promise<{|profiles: Array<Profile>, movies: Array<Movie>|}> {
