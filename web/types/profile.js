@@ -11,7 +11,9 @@ export type Profile = {|
   name: string,
   email: string,
   avatar: ?string,
-  about: ?string
+  about: ?string,
+  likes: number,
+  dislikes: number
 |}
 
 export type ProfileState = {|
