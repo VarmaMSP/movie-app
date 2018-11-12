@@ -41,7 +41,7 @@ export default class Client {
   async doFetch (method: string, url: string, body: ?Object): Promise<any> {
     const request = new Request(url, {
       method,
-      headers: new Headers(),
+      headers: new Headers({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(body),
       credentials: this.includeCookies ? 'include' : undefined
     })
