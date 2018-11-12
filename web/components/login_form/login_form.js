@@ -1,19 +1,41 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Input, Button } from 'antd'
+import { Input, Button, message } from 'antd'
+import { isValidEmail } from 'utils/utils'
+
+type Props = {|
+  loggedIn: boolean,
+  loading: boolean,
+  errors: ?Array<string>,
+  login: (string, string) => void,
+  clearErrors: () => void
+|}
 
 type State = {|
   email: string,
   password: string
 |}
 
-export default class LoginForm extends Component<{}, State> {
-  constructor () {
-    super()
+export default class LoginForm extends Component<Props, State> {
+  constructor (props: Props) {
+    super(props)
     this.state = {
       email: '',
       password: ''
+    }
+  }
+
+  componentDidMount () {
+    const { errors, clearErrors } = this.props
+    if (errors) clearErrors()
+  }
+
+  componentDidUpdate () {
+    const { errors, clearErrors } = this.props
+    if (errors) {
+      errors.forEach(err => message.error(err, 3))
+      clearErrors()
     }
   }
 
@@ -32,11 +54,24 @@ export default class LoginForm extends Component<{}, State> {
   }
 
   handleSubmit = () => {
-    console.log(this.state)
+    const { login } = this.props
+    const { email, password } = this.state
+
+    if (email.length === 0 || password.length === 0) {
+      return
+    }
+    if (!isValidEmail(email)) {
+      message.error('Email is not valid.')
+      return
+    }
+    console.log(email, password)
+    login(email, password)
   }
 
   render () {
+    const { loading } = this.props
     const { email, password } = this.state
+
     return (
       <div className='login-form'>
         <h2>{'Login'}</h2>
@@ -46,7 +81,6 @@ export default class LoginForm extends Component<{}, State> {
           value={email}
           onChange={this.handleEmailChange}
           addonBefore='email'
-          placeholder='email'
         />
         <br /><br />
         <Input
@@ -57,7 +91,14 @@ export default class LoginForm extends Component<{}, State> {
         />
         <br /><br />
         <div className='submit-button'>
-          <Button type='primary' size='default'>login</Button>
+          <Button
+            loading={loading}
+            type='primary'
+            size='default'
+            onClick={this.handleSubmit}
+          >
+            login
+          </Button>
         </div>
       </div>
     )

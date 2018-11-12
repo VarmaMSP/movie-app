@@ -1,6 +1,16 @@
 // @flow
 import React, { Component } from 'react'
-import { Input, Button } from 'antd'
+import { Input, Button, message } from 'antd'
+
+import { isValidEmail } from 'utils/utils'
+
+type Props = {|
+  loggedIn: boolean,
+  loading: boolean,
+  errors: ?Array<string>,
+  signup: (string, string, string) => void,
+  clearErrors: () => void
+|}
 
 type State = {|
   name: string,
@@ -9,7 +19,7 @@ type State = {|
   passwordAgain: string
 |}
 
-export default class SignupForm extends Component<{}, State> {
+export default class SignupForm extends Component<Props, State> {
   constructor () {
     super()
     this.state = {
@@ -17,6 +27,19 @@ export default class SignupForm extends Component<{}, State> {
       email: '',
       password: '',
       passwordAgain: ''
+    }
+  }
+
+  componentDidMount () {
+    const { errors, clearErrors } = this.props
+    if (errors) clearErrors()
+  }
+
+  componentDidUpdate () {
+    const { errors, clearErrors } = this.props
+    if (errors) {
+      errors.forEach(err => message.error(err, 3))
+      clearErrors()
     }
   }
 
@@ -49,7 +72,29 @@ export default class SignupForm extends Component<{}, State> {
   }
 
   handleSubmit = () => {
-    console.log(this.state)
+    const { signup } = this.props
+    const { name, email, password, passwordAgain } = this.state
+
+    if (name.length === 0 || email.length === 0 || password.length === 0) {
+      return
+    }
+    if (name.length < 5) {
+      message.error('Name should be minimum of 5 characters long.')
+      return
+    }
+    if (!isValidEmail(email)) {
+      message.error('Email is not valid.')
+      return
+    }
+    if (password.length < 6) {
+      message.error('Password should be minimum of 6 characters long.')
+      return
+    }
+    if (password !== passwordAgain) {
+      message.error('Passowords do not match.')
+      return
+    }
+    signup(name, email, password)
   }
 
   render () {
@@ -63,15 +108,13 @@ export default class SignupForm extends Component<{}, State> {
           value={name}
           onChange={this.handleNameChange}
           addonBefore='name'
-          placeholder='name'
         />
         <br /><br />
         <Input
-          type='text'
+          type='email'
           value={email}
           onChange={this.handleEmailChange}
           addonBefore='email'
-          placeholder='email'
         />
         <br /><br />
         <Input
@@ -79,18 +122,23 @@ export default class SignupForm extends Component<{}, State> {
           value={password}
           onChange={this.handlePasswordChange}
           addonBefore='password'
-          placeholder='password'
         />
         <br /><br />
         <Input
-          type='text'
+          type='password'
           value={passwordAgain}
-          onChange={this.handleEmailChange}
+          onChange={this.handlePasswordAgainChange}
           placeholder='Re enter your password.'
         />
         <br /><br />
         <div className='submit-button'>
-          <Button type='primary' size='default'>Signup</Button>
+          <Button
+            type='primary'
+            size='default'
+            onClick={this.handleSubmit}
+          >
+            Signup
+          </Button>
         </div>
       </div>
     )
