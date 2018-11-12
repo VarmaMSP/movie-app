@@ -1,0 +1,30 @@
+.profile {
+    padding-top: 10vh;
+}
+
+.profile .avatar {
+    height: 200px;
+    width: 200px;
+    border-radius: 100px;
+}
+
+.profile .details {
+    padding: 0 25px;
+}
+
+.profile .details #name {
+    height: 300;
+    font-size: 50px;
+    font-weight: 700;
+}
+
+.profile .details .others {
+    font-size: 20px;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.profile .details .about-input {
+    width: 400px;
+    margin: 25px 0;
+}
