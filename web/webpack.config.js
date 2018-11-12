@@ -2,12 +2,14 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const srcPath = __dirname
-const staticPath = path.resolve(__dirname, '..', 'doc', 'static')
+const staticPath = path.resolve(__dirname, '..', 'docs', 'static')
 
 module.exports = {
+  mode: 'development',
   entry: [
     'regenerator-runtime/runtime',
-    path.resolve(srcPath, 'web.js')
+    path.resolve(srcPath, 'web.js'),
+    path.resolve(srcPath, 'styles', 'index.scss')
   ],
   output: { path: staticPath, filename: 'js/index.js' },
   module: {
@@ -34,7 +36,12 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'less-loader'
+          {
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true
+            }
+          }
         ]
       },
       {
