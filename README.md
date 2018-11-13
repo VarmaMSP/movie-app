@@ -7,10 +7,13 @@
 	`> git clone https://github.com/VarmaMSP/movie-app.git`
   
 	`> cd movie-app`
+	
 
 1.  Setup up database by executing `docs/schema.sql`
 
 	`mysql > source <path_to_repo>/docs/schema.sql`
+	
+1.  Edit `server/.env` with TMDB api key and db credentials.
 
 1.  Install dependecies and build frontend.
 
