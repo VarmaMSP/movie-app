@@ -12,6 +12,7 @@ export type Movie = {|
   id: number,
   title: string,
   language: string,
+  overview: string,
   poster: ?string,
   backdrop: ?string,
   status: MovieStatus,
@@ -19,6 +20,12 @@ export type Movie = {|
   releaseDate: string,
   runtime: number,
   opinion?: 'LIKE' | 'DISLIKE'
+|}
+
+export type BookmartDetails = {|
+  userId: number,
+  movieId: number,
+  opinion: 'LIKE' | 'DISLIKE'
 |}
 
 export type MovieState = {|
