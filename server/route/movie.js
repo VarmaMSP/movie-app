@@ -29,6 +29,16 @@ function getMovieCast (req, res) {
   )
 }
 
+function discoverMovies (req, res) {
+  movie.discover().then(
+    result => res.status(200).json(result),
+    err => res
+      .status(err.respCode || 500)
+      .set('Content-Type', 'application/json')
+      .send(err.toString())
+  )
+}
+
 function bookmartMovie (req, res) {
   const { action } = req.body
   const { movieId } = req.params
@@ -45,6 +55,8 @@ function bookmartMovie (req, res) {
 const router = express.Router()
 
 router.use(authenticationMiddleware)
+
+router.get('/', discoverMovies)
 
 router.get('/:movieId', [
   param('movieId')

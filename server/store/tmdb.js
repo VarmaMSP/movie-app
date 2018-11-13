@@ -28,6 +28,10 @@ export default class TMDB {
     return `${this.baseUrl}/search/movie`
   }
 
+  getDiscoverRoute (): string {
+    return `${this.baseUrl}/discover/movie`
+  }
+
   getPosterRoute (src: ?string, size: 'S' | 'M' | 'L'): ?string {
     if (src && size === 'S') return `${this.imgConfig.baseUrl}${this.imgConfig.posterSizes[0]}/${src}`
     if (src && size === 'M') return `${this.imgConfig.baseUrl}${this.imgConfig.posterSizes[1]}/${src}`
@@ -86,6 +90,11 @@ export default class TMDB {
   async searchMovies (searchQuery: string, page: number): Promise<any> {
     const queryParams = `api_key=${this.apiKey}&query=${searchQuery}&page=${page}&include_adult=false`
     return this.doFetch(`${this.getSearchRoute()}?${queryParams}`)
+  }
+
+  async discoverMovies (): Promise<any> {
+    const queryParams = `api_key=${this.apiKey}`
+    return this.doFetch(`${this.getDiscoverRoute()}?${queryParams}`)
   }
 
   async setConfig () {

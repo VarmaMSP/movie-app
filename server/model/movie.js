@@ -88,4 +88,23 @@ async function search (searchQuery: string, page: number): Promise<SearchResp> {
   }
 }
 
-export default { getById, getCast, search }
+async function discover (): Promise<{ movies: Array<MovieDetails> }> {
+  const tmdb = await tmdbP
+  const resp = await tmdb.discoverMovies()
+  return {
+    movies: resp.results.map(m => ({
+      id: m.id,
+      title: m.title,
+      overview: resp.overview,
+      language: ISO6391.getName(m.original_language),
+      poster: tmdb.getPosterRoute(m.poster_path, 'M'),
+      backdrop: tmdb.getBackdropRoute(m.backdrop_path, 'L'),
+      status: m.status,
+      releaseDate: m.release_date,
+      rating: m.vote_average,
+      runtime: m.runtime
+    }))
+  }
+}
+
+export default { getById, getCast, search, discover }
