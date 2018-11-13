@@ -8,7 +8,7 @@ function signup (req, res) {
   const { name, email, password } = req.body
   user.create(name, email, password).then(
     result => {
-      res.session.user = result
+      req.session.user = result
       res.status(201).json(result)
     },
     err => res

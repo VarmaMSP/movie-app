@@ -12,7 +12,7 @@ import { getProfile as getProfileA, updateProfile } from 'actions/entities/profi
 import Profile from 'components/profile/profile'
 
 function mapStateToProps (state: State, { match }: { match: Match }) {
-  const userId = Number(match.params.userId) || 1
+  const userId = Number(match.params.userId)
   const profile = getProfile(state, userId || undefined)
   const canEdit = !userId && profile ? !profile.about : false
   return {
@@ -24,7 +24,7 @@ function mapStateToProps (state: State, { match }: { match: Match }) {
 }
 
 function mapDispatchToProps (dispatch: Dispatch, { match }: { match: Match }) {
-  const userId = Number(match.params.userId) || 1
+  const userId = Number(match.params.userId)
   return {
     getProfile: () => dispatch(getProfileA(userId || undefined)),
     updateProfile: (about, image) => dispatch(updateProfile(about, image)),
