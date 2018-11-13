@@ -12,7 +12,10 @@ import { createStore, applyMiddleware } from 'redux'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Sidebar from 'components/sidebar'
+import Profile from 'components/profile'
 import LoginModal from 'components/login_modal'
+import MovieDetails from 'components/movie_details'
+import SearchResults from 'components/search_results'
 import RedirectIfLoggedout from 'components/redirect_if_loggedout'
 import reducers from 'reducers'
 import { loadLoginData, saveLoginData } from 'utils/localStorage'
@@ -26,12 +29,15 @@ ReactDOM.render(
     <Router>
       <Layout>
         <Sidebar />
-        <Layout style={{ marginLeft: 220 }}>
+        <RedirectIfLoggedout />
+        <Layout style={{ marginLeft: 220, height: '100vh', background: '#fff' }}>
           <Switch>
             <Route path='/login' component={LoginModal} />
+            <Route path='/profile/:userId?' component={Profile} />
+            <Route path='/movie/:movieId' component={MovieDetails} />
+            <Route path='/results' component={SearchResults} />
             <Route component={() => (<h1>Page not found.</h1>)} />
           </Switch>
-          <RedirectIfLoggedout />
         </Layout>
       </Layout>
     </Router>
