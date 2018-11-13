@@ -19,7 +19,7 @@ import MovieDetails from 'components/movie_details'
 import SearchResults from 'components/search_results'
 import RedirectIfLoggedout from 'components/redirect_if_loggedout'
 import reducers from 'reducers'
-import { loadLoginData, saveLoginData } from 'utils/localStorage'
+import { loadLoginData, saveLoginData } from 'utils/localstorage'
 
 message.config({ maxCount: 4 })
 
