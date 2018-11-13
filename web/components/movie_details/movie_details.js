@@ -42,7 +42,9 @@ export default class MovieDetails extends Component<Props> {
       <>
         <Row className='movie-details'>
           <Col span={5}>
-            <img className='movie-poster' src={movie.poster} />
+            <img className='movie-poster'
+              src={movie.poster || 'http://via.placeholder.com/220x350?text=No%20Poster'}
+            />
           </Col>
           <Col span={16}>
             <div className='title'>{movie.title}</div>
@@ -76,7 +78,7 @@ export default class MovieDetails extends Component<Props> {
                 <Card
                   bordered={false}
                   style={{ width: 120 }}
-                  cover={<img src={c.poster} />}
+                  cover={<img src={c.poster || 'http://via.placeholder.com/120x200?text=No%20Poster'} />}
                 >
                   <Card.Meta
                     title={c.name}

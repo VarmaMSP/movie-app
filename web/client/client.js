@@ -92,9 +92,10 @@ export default class Client {
     return this.doFetch('PATCH', this.getProfileRoute(), { about, image })
   }
 
-  search (searchQuery: string): Promise<{|profiles: Array<Profile>, movies: Array<Movie>|}> {
+  searchAll (searchQuery: string): Promise<{|profiles: Array<Profile>, movies: Array<Movie>|}> {
     return this.doFetch('GET', `${this.getSearchRoute()}?search_query=${searchQuery}`)
   }
+
   searchMovies (searchQuery: string, page: number): Promise<{|total: number, movies: Array<Movie>|}> {
     return this.doFetch('GET', `${this.getSearchRoute()}/movie?search_query=${searchQuery}&page=${page}`)
   }

@@ -12,7 +12,7 @@ import { getMovie, getCast } from 'selectors/movie'
 import MovieDetails from 'components/movie_details/movie_details'
 
 function mapStateToProps (state: State, { match }: { match: Match }) {
-  const movieId = Number(match.params.movieId)
+  const movieId = Number(match.params.movieId) || 616
   const movie = getMovie(state, movieId)
   return {
     movie,
@@ -24,7 +24,7 @@ function mapStateToProps (state: State, { match }: { match: Match }) {
 }
 
 function mapDispatchToProps (dispatch: Dispatch, { match }: { match: Match }) {
-  const movieId = Number(match.params.movieId)
+  const movieId = Number(match.params.movieId) || 616
   return {
     getDetails: () => {
       dispatch(getMovieById(movieId))
