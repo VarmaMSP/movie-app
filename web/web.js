@@ -38,7 +38,7 @@ ReactDOM.render(
             <Route path='/movie/:movieId' component={MovieDetails} />
             <Route path='/discover' component={Discover} />
             <Route path='/results' component={SearchResults} />
-            <Redirect to='/movie/discover' />
+            <Redirect to='/discover' />
           </Switch>
         </Layout>
       </Layout>
