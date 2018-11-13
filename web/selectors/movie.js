@@ -16,3 +16,10 @@ export function getCast (state: State, movieId: number): Array<CastMember> {
     }))
     : []
 }
+
+export function getMovieResults (state: State, searchQuery: string): Array<Movie> {
+  const results = state.entities.movie.searchResults[searchQuery]
+  return results
+    ? results.map((m) => state.entities.movie.byId[m])
+    : []
+}

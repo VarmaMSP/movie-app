@@ -18,5 +18,8 @@ export type Profile = {|
 
 export type ProfileState = {|
   byId: {[userId:number]: Profile},
-  loggedInUser: ?User
+  loggedInUser: ?User,
+  searchResults: {
+    [query:string]: Array<number>
+  }
 |}

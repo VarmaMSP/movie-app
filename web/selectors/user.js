@@ -15,3 +15,10 @@ export function getProfile (state: State, profileId: ?number): ?Profile {
     ? state.entities.profile.byId[userId]
     : undefined
 }
+
+export function getProfileResults (state: State, searchQuery: string): Array<Profile> {
+  const results = state.entities.profile.searchResults[searchQuery]
+  return results
+    ? results.map(r => state.entities.profile.byId[r])
+    : []
+}

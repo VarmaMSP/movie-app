@@ -3,7 +3,7 @@ import type { Action } from 'types/action'
 import type { User, Profile } from 'types/profile'
 
 import { combineReducers } from 'redux'
-import { AuthTypes, ProfileTypes } from 'actions/types'
+import { AuthTypes, ProfileTypes, SearchTypes } from 'actions/types'
 
 function profiles (state: {[number]: Profile} = {}, action: Action): {[number]: Profile} {
   switch (action.type) {
@@ -19,6 +19,26 @@ function profiles (state: {[number]: Profile} = {}, action: Action): {[number]: 
           ...state[action.data.userId],
           ...action.data
         }
+      }
+    case SearchTypes.SEARCH_SUCCESS:
+      const newProfiles = action.data.profiles.reduce((acc, p) =>
+        ({ [p.id]: p }), {}
+      )
+      return {
+        ...state,
+        ...newProfiles
+      }
+    default:
+      return state
+  }
+}
+
+function searchResults (state: {[string]: Array<number>} = {}, action: Action): {[string]: Array<number>} {
+  switch (action.type) {
+    case SearchTypes.SEARCH_SUCCESS:
+      return {
+        ...state,
+        [action.data.searchQuery]: action.data.profiles.map(p => p.id)
       }
     default:
       return state
@@ -40,5 +60,6 @@ function loggedInUser (state: ?User = null, action: Action): ?User {
 
 export default combineReducers({
   byId: profiles,
+  searchResults,
   loggedInUser
 })

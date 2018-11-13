@@ -31,8 +31,6 @@ export type BookmartDetails = {|
 export type MovieState = {|
   byId: {[number]: Movie},
   searchResults: {
-    [query:string]: {
-      [page:number]: Array<number>
-    }
+    [query:string]: Array<number>
   }
 |}

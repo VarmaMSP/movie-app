@@ -3,7 +3,7 @@ import type { Action } from 'types/action'
 import type { Movie } from 'types/movie'
 
 import { combineReducers } from 'redux'
-import { MovieTypes } from 'actions/types'
+import { MovieTypes, SearchTypes } from 'actions/types'
 
 function movies (state: {[number]: Movie} = {}, action: Action): {[number]: Movie} {
   switch (action.type) {
@@ -20,11 +20,32 @@ function movies (state: {[number]: Movie} = {}, action: Action): {[number]: Movi
           opinion: action.data.opinion
         }
       }
+    case SearchTypes.SEARCH_SUCCESS:
+      const movies = action.data.movies.reduce((acc, m) =>
+        ({ ...acc, [m.id]: m }), {}
+      )
+      return {
+        ...state,
+        ...movies
+      }
+    default:
+      return state
+  }
+}
+
+function searchResults (state: {[string]: Array<number>} = {}, action: Action): {[string]: Array<number>} {
+  switch (action.type) {
+    case SearchTypes.SEARCH_SUCCESS:
+      return {
+        ...state,
+        [action.data.searchQuery]: action.data.movies.map(m => m.id)
+      }
     default:
       return state
   }
 }
 
 export default combineReducers({
-  byId: movies
+  byId: movies,
+  searchResults
 })
