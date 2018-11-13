@@ -1,6 +1,6 @@
 // @flow
 import type { User, Profile } from 'types/profile'
-import type { Movie } from 'types/movie'
+import type { Movie, BookmartDetails } from 'types/movie'
 import type { CastMember } from 'types/actor'
 
 import { AppError } from 'utils/error'
@@ -80,8 +80,8 @@ export default class Client {
     return this.doFetch('GET', `${this.getMovieRoute()}/cast/${movieId}`)
   }
 
-  bookmartMovie (movieId: number, action: 'LIKE' | 'DISLIKE'): Promise<mixed> {
-    return this.doFetch('POST', `${this.getMovieRoute()}/cast/${movieId}`, { action })
+  bookmartMovie (movieId: number, action: 'LIKE' | 'DISLIKE'): Promise<BookmartDetails> {
+    return this.doFetch('POST', `${this.getMovieRoute()}/${movieId}/bookmart/`, { action })
   }
 
   getProfile (userId: ?number): Promise<Profile> {

@@ -2,6 +2,11 @@
     box-sizing: border-box
 }
 
+.ant-card-body {
+    padding: 10px;
+}
+
 @import './components/siderbar';
 @import './components/login';
-@import './components/profile'
+@import './components/profile';
+@import './components/movie';

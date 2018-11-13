@@ -1,5 +1,5 @@
 // @flow
-import type { Dispatch, Thunk } from 'types/action'
+import type { Action, Dispatch, Thunk } from 'types/action'
 
 import { AppError } from 'utils/error'
 
@@ -8,13 +8,18 @@ export function defaultApiThunk (
   apiParams: Array<any>,
   requestActionType: string,
   successActionType: string,
-  failureActionType: string
+  failureActionType: string,
+  successAction?: (mixed) => Action
 ): Thunk {
   return async (dispatch: Dispatch) => {
     dispatch({ type: requestActionType, data: undefined })
     try {
       const data = await api(...apiParams)
-      dispatch({ type: successActionType, data })
+      if (successAction) {
+        dispatch(successAction(data))
+      } else {
+        dispatch({ type: successActionType, data })
+      }
     } catch (err) {
       if (err instanceof AppError) {
         dispatch({ type: failureActionType, data: err.errors })

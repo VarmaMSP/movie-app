@@ -19,7 +19,8 @@ export function getMovieCast (movieId: number) {
     [movieId],
     MovieTypes.GET_MOVIE_CAST_REQUEST,
     MovieTypes.GET_MOVIE_CAST_SUCCESS,
-    MovieTypes.GET_MOVIE_CAST_FAILURE
+    MovieTypes.GET_MOVIE_CAST_FAILURE,
+    (data) => ({ type: MovieTypes.GET_MOVIE_CAST_SUCCESS, data: { movieId, cast: data } })
   )
 }
 
