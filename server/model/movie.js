@@ -16,6 +16,7 @@ type MovieDetails = {|
   id: number,
   title: string,
   language: string,
+  overview: ?string,
   poster: ?string,
   backdrop: ?string,
   status: MovieStatus,
@@ -38,6 +39,7 @@ async function getById (userId: number, movieId: number): Promise<MovieDetails> 
   const details = {
     id: resp.id,
     title: resp.title,
+    overview: resp.overview,
     language: ISO6391.getName(resp.original_language),
     poster: tmdb.getPosterRoute(resp.poster_path, 'M'),
     backdrop: tmdb.getBackdropRoute(resp.backdrop_path, 'L'),
@@ -74,6 +76,7 @@ async function search (searchQuery: string, page: number): Promise<SearchResp> {
     movies: resp.results.map(m => ({
       id: m.id,
       title: m.title,
+      overview: resp.overview,
       language: ISO6391.getName(m.original_language),
       poster: tmdb.getPosterRoute(m.poster_path, 'M'),
       backdrop: tmdb.getBackdropRoute(m.backdrop_path, 'L'),

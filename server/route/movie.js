@@ -34,7 +34,7 @@ function bookmartMovie (req, res) {
   const { movieId } = req.params
   const { id: userId } = req.session.user
   bookmart.create(userId, movieId, action).then(
-    () => res.status(201).send(),
+    result => res.status(201).json(result),
     err => res
       .status(err.respCode || 500)
       .set('Content-Type', 'application/json')
