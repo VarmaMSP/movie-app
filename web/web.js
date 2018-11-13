@@ -9,10 +9,11 @@ import thunk from 'redux-thunk'
 import { Layout, message } from 'antd'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 
 import Sidebar from 'components/sidebar'
 import Profile from 'components/profile'
+import Discover from 'components/discover'
 import LoginModal from 'components/login_modal'
 import MovieDetails from 'components/movie_details'
 import SearchResults from 'components/search_results'
@@ -35,8 +36,9 @@ ReactDOM.render(
             <Route path='/login' component={LoginModal} />
             <Route path='/profile/:userId?' component={Profile} />
             <Route path='/movie/:movieId' component={MovieDetails} />
+            <Route path='/discover' component={Discover} />
             <Route path='/results' component={SearchResults} />
-            <Route component={() => (<h1>Page not found.</h1>)} />
+            <Redirect to='/movie/discover' />
           </Switch>
         </Layout>
       </Layout>

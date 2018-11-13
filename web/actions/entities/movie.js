@@ -24,6 +24,16 @@ export function getMovieCast (movieId: number) {
   )
 }
 
+export function discoverMovies () {
+  return defaultApiThunk(
+    () => client.discoverMovies(),
+    [],
+    MovieTypes.DISCOVER_MOVIES_REQUEST,
+    MovieTypes.DISCOVER_MOVIES_SUCCESS,
+    MovieTypes.DISCOVER_MOVIES_FAILURE
+  )
+}
+
 export function bookmartMovie (movieId: number, action: 'LIKE' | 'DISLIKE') {
   return defaultApiThunk(
     (a, b) => client.bookmartMovie(a, b),

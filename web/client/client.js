@@ -84,6 +84,10 @@ export default class Client {
     return this.doFetch('POST', `${this.getMovieRoute()}/${movieId}/bookmart/`, { action })
   }
 
+  discoverMovies (): Promise<{| movies: Array<Movie> |}> {
+    return this.doFetch('GET', this.getMovieRoute())
+  }
+
   getProfile (userId: ?number): Promise<Profile> {
     return this.doFetch('GET', `${this.getProfileRoute()}/${userId || ''}`)
   }

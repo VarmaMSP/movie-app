@@ -4,17 +4,17 @@ import type { Dispatch } from 'types/action'
 import type { Location } from 'react-router-dom'
 import type { ComponentType } from 'react'
 
-import queryString from 'query-string'
 import { connect } from 'react-redux'
 import { searchAll } from 'actions/entities/search'
 import { SearchTypes } from 'actions/types'
 import { getMovieResults } from 'selectors/movie'
 import { getProfileResults } from 'selectors/user'
 import { isLoading, getErrors } from 'selectors/api'
+import { parseQueryString } from 'utils/utils'
 import SearchResults from 'components/search_results/search_results'
 
 function mapStateToProps (state: State, { location }: { location: Location }) {
-  const searchQuery: string = (queryString.parse(location.search)).searchQuery || ''
+  const searchQuery = (parseQueryString(location.search))['search_query'] || ''
   return {
     movies: getMovieResults(state, searchQuery),
     profiles: getProfileResults(state, searchQuery),
@@ -24,7 +24,7 @@ function mapStateToProps (state: State, { location }: { location: Location }) {
 }
 
 function mapDispatchToProps (dispatch: Dispatch, { location }: { location: Location }) {
-  const searchQuery: string = (queryString.parse(location.search)).searchQuery || ''
+  const searchQuery = (parseQueryString(location.search))['search_query'] || ''
   return {
     search: () => dispatch(searchAll(searchQuery)),
     clearErrors: () => dispatch({ type: SearchTypes.SEARCH + '_CLEAR', data: undefined })

@@ -23,3 +23,9 @@ export function getMovieResults (state: State, searchQuery: string): Array<Movie
     ? results.map((m) => state.entities.movie.byId[m])
     : []
 }
+
+export function getDiscoverMovies (state: State): Array<Movie> {
+  return state.entities.movie.discoverMovies.map(
+    (m) => state.entities.movie.byId[m]
+  )
+}

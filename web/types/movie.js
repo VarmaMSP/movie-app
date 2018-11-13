@@ -32,5 +32,6 @@ export type MovieState = {|
   byId: {[number]: Movie},
   searchResults: {
     [query:string]: Array<number>
-  }
+  },
+  discoverMovies: Array<number>
 |}

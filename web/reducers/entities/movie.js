@@ -20,6 +20,7 @@ function movies (state: {[number]: Movie} = {}, action: Action): {[number]: Movi
           opinion: action.data.opinion
         }
       }
+    case MovieTypes.DISCOVER_MOVIES_SUCCESS:
     case SearchTypes.SEARCH_SUCCESS:
       const movies = action.data.movies.reduce((acc, m) =>
         ({ ...acc, [m.id]: m }), {}
@@ -45,7 +46,17 @@ function searchResults (state: {[string]: Array<number>} = {}, action: Action): 
   }
 }
 
+function discoverMovies (state: Array<Movie> = [], action: Action): Array<Movie> {
+  switch (action.type) {
+    case MovieTypes.DISCOVER_MOVIES_SUCCESS:
+      return action.data.movies.map(m => m.id)
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   byId: movies,
-  searchResults
+  searchResults,
+  discoverMovies
 })

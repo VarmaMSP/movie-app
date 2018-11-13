@@ -1,10 +1,11 @@
 // @flow
-import type { Location } from 'react-router-dom'
+import type { RouterHistory, Location } from 'react-router-dom'
 
 import React, { Component } from 'react'
 import { Menu, Icon, Input, Layout, Button, message } from 'antd'
 
 type Props = {|
+  history: RouterHistory,
   location: Location,
   loggedIn: boolean,
   loading: boolean,
@@ -14,6 +15,16 @@ type Props = {|
 |}
 
 export default class Sidebar extends Component<Props> {
+  handleItemSelect = ({ key }: { key: string }) => {
+    const { history } = this.props
+    history.push(key)
+  }
+
+  handleSearch = (value: string) => {
+    const { history } = this.props
+    history.push(`/results?search_query=${value}`)
+  }
+
   componentDidMount () {
     const { errors, clearErrors } = this.props
     if (errors) clearErrors()
@@ -29,9 +40,7 @@ export default class Sidebar extends Component<Props> {
 
   render () {
     const { location, loggedIn, logout, loading } = this.props
-    const activeMenu = location.pathname === '/discover'
-      ? ['1'] : location.pathname === '/profile'
-        ? ['2'] : []
+
     return (
       <Layout.Sider
         className='sidebar'
@@ -44,15 +53,18 @@ export default class Sidebar extends Component<Props> {
         <Input.Search
           className='search-input'
           placeholder='Search...'
-          onSearch={console.log}
+          onSearch={this.handleSearch}
         />
         <div className='menu'>
-          <Menu mode='vertical' selectedKeys={activeMenu}>
-            <Menu.Item key='1'>
+          <Menu mode='vertical'
+            selectedKeys={[location.pathname]}
+            onClick={this.handleItemSelect}
+          >
+            <Menu.Item key='/discover'>
               <Icon type='compass' />
               <span className='nav-text'>Discover Movies</span>
             </Menu.Item>
-            <Menu.Item key='2'>
+            <Menu.Item key='/profile'>
               <Icon type='user' />
               <span className='nav-text'>Your Profile</span>
             </Menu.Item>
