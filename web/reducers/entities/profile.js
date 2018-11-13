@@ -22,7 +22,7 @@ function profiles (state: {[number]: Profile} = {}, action: Action): {[number]: 
       }
     case SearchTypes.SEARCH_SUCCESS:
       const newProfiles = action.data.profiles.reduce((acc, p) =>
-        ({ [p.id]: p }), {}
+        ({ ...acc, [p.userId]: p }), {}
       )
       return {
         ...state,
@@ -38,7 +38,7 @@ function searchResults (state: {[string]: Array<number>} = {}, action: Action): 
     case SearchTypes.SEARCH_SUCCESS:
       return {
         ...state,
-        [action.data.searchQuery]: action.data.profiles.map(p => p.id)
+        [action.data.searchQuery]: action.data.profiles.map(p => p.userId)
       }
     default:
       return state
