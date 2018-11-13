@@ -48,7 +48,7 @@ async function update (userId: number, about: string, avatar: string): Promise<m
 
 async function search (searchQuery: string): Promise<Array<ProfileDetails>> {
   const sql = 'SELECT * FROM user WHERE name LIKE ? OR email LIKE ? LIMIT 10'
-  const users: Array<Object> = await db.query(sql, [`% ${searchQuery}%`, `% ${searchQuery}%`])
+  const users: Array<Object> = await db.query(sql, [`%${searchQuery}%`, `%${searchQuery}%`])
   return users.map(u => ({
     userId: u.id,
     name: u.name,
