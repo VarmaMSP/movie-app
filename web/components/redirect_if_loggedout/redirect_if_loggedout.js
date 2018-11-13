@@ -1,22 +1,26 @@
 // @flow
-import type { Location } from 'react-router-dom'
+import type { RouterHistory, Location } from 'react-router-dom'
 
-import React from 'react'
-import { Redirect } from 'react-router-dom'
+import React, { Component } from 'react'
 
 type Props = {|
+  history: RouterHistory,
   location: Location,
   loggedIn: boolean
 |}
 
-const RedirectIfLoggedOut = ({ location: { pathname: path }, loggedIn }: Props) => {
-  if (path !== '/login' && !loggedIn) {
-    return <Redirect to='/login' />
+export default class RedirectIfLoggedOut extends Component<Props> {
+  componentDidMount () {
+    const { location: { pathname }, history, loggedIn } = this.props
+    if (pathname !== '/login' && !loggedIn) {
+      history.replace('/login')
+    }
+    if (pathname === '/login' && loggedIn) {
+      history.replace('/disocover')
+    }
   }
-  if (path === '/login' && loggedIn) {
-    return <Redirect to='/discover' />
-  }
-  return null
-}
 
-export default RedirectIfLoggedOut
+  render () {
+    return null
+  }
+}
