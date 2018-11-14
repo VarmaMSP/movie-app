@@ -9,19 +9,17 @@ export const loadLoginData = () => {
     console.log(err)
   }
   return {
-    entities: {
-      profile: {
-        loggedInUser: loggedInUser
-          ? JSON.parse(loggedInUser)
-          : null
-      }
+    profile: {
+      loggedInUser: loggedInUser
+        ? JSON.parse(loggedInUser)
+        : null
     }
   }
 }
 
 export const saveLoginData = (state: State) => {
   try {
-    let loggedInUser = JSON.stringify(state.entities.profile.loggedInUser)
+    let loggedInUser = JSON.stringify(state.profile.loggedInUser)
     localStorage.setItem('logged-in-user', loggedInUser)
   } catch (err) {
     console.log(err)

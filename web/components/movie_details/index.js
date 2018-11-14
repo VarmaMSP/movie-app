@@ -6,7 +6,7 @@ import type { Match } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { MovieTypes } from 'actions/types'
-import { getMovieById, getMovieCast, bookmartMovie } from 'actions/entities/movie'
+import { getMovieById, getMovieCast, bookmartMovie } from 'actions/movie'
 import { getErrors, isLoading } from 'selectors/api'
 import { getMovie, getCast } from 'selectors/movie'
 import MovieDetails from 'components/movie_details/movie_details'

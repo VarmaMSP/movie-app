@@ -7,12 +7,10 @@ import type { ProfileState } from 'types/profile'
 import type { Action, Dispatch } from 'types/action'
 
 export type State = {|
-  entities: {|
-    api: ApiState,
+  api: ApiState,
     actor: ActorState,
     movie: MovieState,
     profile: ProfileState
-  |}
 |}
 
 export type Store = ReduxStore<State, Action, Dispatch>

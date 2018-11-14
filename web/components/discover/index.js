@@ -5,7 +5,7 @@ import type { ComponentType } from 'react'
 
 import { connect } from 'react-redux'
 import { MovieTypes } from 'actions/types'
-import { discoverMovies } from 'actions/entities/movie'
+import { discoverMovies } from 'actions/movie'
 import { getDiscoverMovies } from 'selectors/movie'
 import { isLoading, getErrors } from 'selectors/api'
 import Discover from 'components/discover/discover'

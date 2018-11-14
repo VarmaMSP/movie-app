@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { ProfileTypes } from 'actions/types'
 import { getProfile } from 'selectors/user'
 import { isLoading, getErrors } from 'selectors/api'
-import { getProfile as getProfileA, updateProfile } from 'actions/entities/profile'
+import { getProfile as getProfileA, updateProfile } from 'actions/profile'
 import Profile from 'components/profile/profile'
 
 function mapStateToProps (state: State, { match }: { match: Match }) {

@@ -5,7 +5,7 @@ import type { ComponentType } from 'react'
 
 import { connect } from 'react-redux'
 import { AuthTypes } from 'actions/types'
-import { signup } from 'actions/entities/auth'
+import { signup } from 'actions/auth'
 import { isLoading, getErrors } from 'selectors/api'
 import SignupForm from 'components/login_modal/signup_form/signup_form'
 

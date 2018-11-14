@@ -6,7 +6,7 @@ import type { ComponentType } from 'react'
 
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { searchAll } from 'actions/entities/search'
+import { searchAll } from 'actions/search'
 import { SearchTypes } from 'actions/types'
 import { getMovieResults } from 'selectors/movie'
 import { getProfileResults } from 'selectors/user'

@@ -1,8 +1,14 @@
 // @flow
 import { combineReducers } from 'redux'
 
-import entities from 'reducers/entities'
+import api from 'reducers/api'
+import movie from 'reducers/movie'
+import actor from 'reducers/actor'
+import profile from 'reducers/profile'
 
 export default combineReducers({
-  entities
+  api,
+  movie,
+  actor,
+  profile
 })
