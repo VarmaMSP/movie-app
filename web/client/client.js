@@ -3,7 +3,7 @@ import type { User, Profile } from 'types/profile'
 import type { Movie, BookmartDetails } from 'types/movie'
 import type { CastMember } from 'types/actor'
 
-import { AppError } from 'utils/error'
+import { AppError, AuthError } from 'utils/error'
 
 export default class Client {
   url: string
@@ -55,7 +55,11 @@ export default class Client {
       throw new AppError(500, ['Cannot reach server, something went wrong.'])
     }
     if (data.error) {
-      throw new AppError(response.status, data.message)
+      if (response.status === 401) {
+        throw new AuthError(data.message)
+      } else {
+        throw new AppError(response.status, data.message)
+      }
     }
     return data
   }

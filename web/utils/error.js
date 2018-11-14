@@ -14,3 +14,12 @@ export class AppError extends Error {
     return JSON.stringify(this.errors)
   }
 }
+
+export class AuthError extends Error {
+  errors: Array<string>
+
+  constructor (errors: Array<string>) {
+    super(errors[0])
+    this.errors = errors
+  }
+}
