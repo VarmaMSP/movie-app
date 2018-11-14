@@ -16,7 +16,7 @@ type Props = {|
 
 const AppContent = ({ location: { pathname }, loggedIn }: Props) => {
   const redirect = pathname !== '/login' && !loggedIn
-    ? <Redirect to='/login' />
+    ? <Redirect push to='/login' />
     : pathname === '/login' && loggedIn
       ? <Redirect to='/' />
       : undefined
