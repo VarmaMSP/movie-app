@@ -1,5 +1,8 @@
 # movie-app
 
+**[Demo](http://ec2-13-233-84-74.ap-south-1.compute.amazonaws.com/)**
+
+
 **Local Seup**
 
 1.  Clone repo
