@@ -92,8 +92,8 @@ export default class TMDB {
     return this.doFetch(`${this.getSearchRoute()}?${queryParams}`)
   }
 
-  async discoverMovies (): Promise<any> {
-    const queryParams = `api_key=${this.apiKey}`
+  async discoverMovies (page: number): Promise<any> {
+    const queryParams = `api_key=${this.apiKey}&page=${page}`
     return this.doFetch(`${this.getDiscoverRoute()}?${queryParams}`)
   }
 

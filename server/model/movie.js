@@ -76,9 +76,9 @@ async function search (searchQuery: string, page: number): Promise<SearchResp> {
     movies: resp.results.map(m => ({
       id: m.id,
       title: m.title,
-      overview: resp.overview,
+      overview: m.overview,
       language: ISO6391.getName(m.original_language),
-      poster: tmdb.getPosterRoute(m.poster_path, 'M'),
+      poster: tmdb.getPosterRoute(m.poster_path, 'S'),
       backdrop: tmdb.getBackdropRoute(m.backdrop_path, 'L'),
       status: m.status,
       releaseDate: m.release_date,
@@ -90,14 +90,16 @@ async function search (searchQuery: string, page: number): Promise<SearchResp> {
 
 async function discover (): Promise<{ movies: Array<MovieDetails> }> {
   const tmdb = await tmdbP
-  const resp = await tmdb.discoverMovies()
+  const resp1 = await tmdb.discoverMovies(1)
+  const resp2 = await tmdb.discoverMovies(2)
+
   return {
-    movies: resp.results.map(m => ({
+    movies: resp1.results.concat(resp2.results).map(m => ({
       id: m.id,
       title: m.title,
-      overview: resp.overview,
+      overview: m.overview,
       language: ISO6391.getName(m.original_language),
-      poster: tmdb.getPosterRoute(m.poster_path, 'M'),
+      poster: tmdb.getPosterRoute(m.poster_path, 'S'),
       backdrop: tmdb.getBackdropRoute(m.backdrop_path, 'L'),
       status: m.status,
       releaseDate: m.release_date,
