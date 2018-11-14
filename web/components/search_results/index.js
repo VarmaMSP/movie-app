@@ -5,6 +5,7 @@ import type { Location } from 'react-router-dom'
 import type { ComponentType } from 'react'
 
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { searchAll } from 'actions/entities/search'
 import { SearchTypes } from 'actions/types'
 import { getMovieResults } from 'selectors/movie'
@@ -16,6 +17,7 @@ import SearchResults from 'components/search_results/search_results'
 function mapStateToProps (state: State, { location }: { location: Location }) {
   const searchQuery = (parseQueryString(location.search))['search_query'] || ''
   return {
+    searchQuery,
     movies: getMovieResults(state, searchQuery),
     profiles: getProfileResults(state, searchQuery),
     loading: isLoading(state, [SearchTypes.SEARCH]),
@@ -23,12 +25,11 @@ function mapStateToProps (state: State, { location }: { location: Location }) {
   }
 }
 
-function mapDispatchToProps (dispatch: Dispatch, { location }: { location: Location }) {
-  const searchQuery = (parseQueryString(location.search))['search_query'] || ''
+function mapDispatchToProps (dispatch: Dispatch) {
   return {
-    search: () => dispatch(searchAll(searchQuery)),
+    search: (searchQuery: string) => dispatch(searchAll(searchQuery)),
     clearErrors: () => dispatch({ type: SearchTypes.SEARCH + '_CLEAR', data: undefined })
   }
 }
 
-export default (connect(mapStateToProps, mapDispatchToProps)(SearchResults): ComponentType<{}>)
+export default withRouter((connect(mapStateToProps, mapDispatchToProps)(SearchResults): ComponentType<{}>))

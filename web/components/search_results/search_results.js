@@ -7,16 +7,51 @@ import React, { Component } from 'react'
 import { Spin, Col, Row, Card, message } from 'antd'
 
 type Props = {|
+  searchQuery: string,
   history: RouterHistory,
   movies: Array<Movie>,
   profiles: Array<Profile>,
   loading: boolean,
   errors: Array<string>,
-  search: () => void,
+  search: (string) => void,
   clearErrors: () => void
 |}
 
-export default class SearchResults extends Component<Props> {
+type State = {|
+  searchQuery: string
+|}
+
+export default class SearchResults extends Component<Props, State> {
+  constructor (props: Props) {
+    super(props)
+    this.state = {
+      searchQuery: props.searchQuery
+    }
+  }
+
+  static getDerivedStateFromProps (nextProps: Props, prevState: State) {
+    const { searchQuery, search } = nextProps
+    if (searchQuery !== prevState.searchQuery) {
+      search(searchQuery)
+      return { searchQuery }
+    }
+    return null
+  }
+
+  componentDidMount () {
+    const { errors, clearErrors, searchQuery, search } = this.props
+    if (errors) clearErrors()
+    search(searchQuery)
+  }
+
+  componentDidUpdate () {
+    const { errors, clearErrors } = this.props
+    if (errors) {
+      errors.forEach(err => message.error(err, 3))
+      clearErrors()
+    }
+  }
+
   handleMovieSelect = (movieId: number) => {
     const { history } = this.props
     return (e: SyntheticEvent<HTMLButtonElement>) => {
@@ -30,20 +65,6 @@ export default class SearchResults extends Component<Props> {
     return (e: SyntheticEvent<HTMLButtonElement>) => {
       e.preventDefault()
       history.push(`/profile/${userId}`)
-    }
-  }
-
-  componentDidMount () {
-    const { errors, clearErrors, search } = this.props
-    if (errors) clearErrors()
-    search()
-  }
-
-  componentDidUpdate () {
-    const { errors, clearErrors } = this.props
-    if (errors) {
-      errors.forEach(err => message.error(err, 3))
-      clearErrors()
     }
   }
 
