@@ -45,9 +45,9 @@ export default class Discover extends Component<Props> {
         : null
     }
 
-    const moviesR = movies.map(m => (
+    let movieCols = movies.map(m => (
       <Col span={4} key={m.id}
-        style={{ marginLeft: '40px', marginRight: '-30px', marginTop: '20px' }}
+        style={{ paddingLeft: 10, marginTop: 20 }}
       >
         <Card
           hoverable
@@ -62,12 +62,20 @@ export default class Discover extends Component<Props> {
         </Card>
       </Col>
     ))
+    let movieRows = []
+    for (let i = 0; i < movieCols.length; i += 6) {
+      movieRows.push(
+        <Row key={i}>
+          { movieCols.slice(i, i + 6) }
+        </Row>
+      )
+    }
 
     return (
       <>
         <h2> &nbsp;&nbsp;&nbsp;Trending Movies </h2>
         { movies.length > 0
-          ? <Row>{moviesR}</Row>
+          ? movieRows
           : <h3> &nbsp;&nbsp;&nbsp;No movies found. </h3>
         }
       </>

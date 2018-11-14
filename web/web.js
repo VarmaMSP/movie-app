@@ -25,7 +25,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Layout>
         <Sidebar />
-        <Layout style={{ marginLeft: 220, height: '100vh', background: '#fff' }}>
+        <Layout style={{ marginLeft: 220, paddingLeft: 40, height: '100vh', background: '#fff' }}>
           <AppContent />
         </Layout>
       </Layout>

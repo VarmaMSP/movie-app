@@ -72,13 +72,13 @@ export default class SearchResults extends Component<Props, State> {
     const { loading, movies, profiles } = this.props
     if (movies.length === 0 && profiles.length === 0) {
       return loading
-        ? <Spin size='large' style={{ height: '100vh', 'paddingTop': '45vh' }} />
+        ? <Spin size='large' style={{ height: '100vh', paddingTop: '45vh' }} />
         : null
     }
 
-    const moviesR = movies.map(m => (
+    let movieCols = movies.map(m => (
       <Col span={4} key={m.id}
-        style={{ marginLeft: '40px', marginRight: '-30px', marginTop: '20px' }}
+        style={{ paddingleft: 10, marginTop: 20 }}
       >
         <Card
           hoverable
@@ -93,10 +93,18 @@ export default class SearchResults extends Component<Props, State> {
         </Card>
       </Col>
     ))
+    let movieRows = []
+    for (let i = 0; i < movieCols.length; i += 6) {
+      movieRows.push(
+        <Row key={i}>
+          { movieCols.slice(i, i + 6) }
+        </Row>
+      )
+    }
 
-    const profilesR = profiles.map(p => (
+    const profilesCols = profiles.map(p => (
       <Col span={4} key={p.userId}
-        style={{ marginLeft: '40px', marginRight: '-30px', marginTop: '20px' }}
+        style={{ paddingLeft: 10, marginTop: 20 }}
       >
         <Card
           hoverable
@@ -115,14 +123,11 @@ export default class SearchResults extends Component<Props, State> {
     return (
       <>
         <h2> &nbsp;&nbsp;&nbsp;Movies </h2>
-        { movies.length > 0
-          ? <Row>{moviesR}</Row>
-          : <h3> &nbsp;&nbsp;&nbsp;No movies found. </h3>
-        }
+        { movieRows }
         <br /><br />
         <h2> &nbsp;&nbsp;&nbsp;Profiles </h2>
         { profiles.length > 0
-          ? <Row>{profilesR}</Row>
+          ? <Row>{profilesCols}</Row>
           : <h3> &nbsp;&nbsp;&nbsp;No Profiles found. </h3>
         }
       </>
