@@ -60,7 +60,7 @@ export default class Sidebar extends Component<Props> {
             selectedKeys={[location.pathname]}
             onClick={this.handleItemSelect}
           >
-            <Menu.Item key='/discover'>
+            <Menu.Item key='/'>
               <Icon type='compass' />
               <span className='nav-text'>Discover Movies</span>
             </Menu.Item>

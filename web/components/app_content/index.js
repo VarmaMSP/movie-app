@@ -5,7 +5,7 @@ import type { ComponentType } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getLoggedInUser } from 'selectors/user'
-import RedirectIfLoggedout from 'components/redirect_if_loggedout/redirect_if_loggedout'
+import AppContent from 'components/app_content/app_content'
 
 function mapStateToProps (state: State) {
   return {
@@ -14,5 +14,5 @@ function mapStateToProps (state: State) {
 }
 
 export default (withRouter(
-  connect(mapStateToProps)(RedirectIfLoggedout)
+  connect(mapStateToProps)(AppContent)
 ): ComponentType<{}>)
